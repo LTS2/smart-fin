@@ -1,4 +1,4 @@
-package com.ysmeta.smartloan.config.auditor;
+package com.ysmeta.smartfin.config.auditor;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.ysmeta.smartloan.domain.user.entity;
+package com.ysmeta.smartfin.domain.user.entity;
 
 import com.ysmeta.BaseEntity;
 

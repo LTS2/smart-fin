@@ -1,4 +1,4 @@
-package com.ysmeta.smartloan;
+package com.ysmeta.smartfin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

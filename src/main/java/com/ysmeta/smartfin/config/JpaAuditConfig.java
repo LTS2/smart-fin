@@ -1,11 +1,11 @@
-package com.ysmeta.smartloan.config;
+package com.ysmeta.smartfin.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.ysmeta.smartloan.config.auditor.BaseAuditorAware;
+import com.ysmeta.smartfin.config.auditor.BaseAuditorAware;
 
 /**
  * @author : ewjin
