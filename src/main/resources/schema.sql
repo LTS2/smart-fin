@@ -14,7 +14,7 @@ CREATE TABLE user (
     token VARCHAR(512) NULL,
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(255) NOT NULL DEFAULT '',
+    updated_by VARCHAR(255) NULL,
     updated_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL
 );
@@ -38,7 +38,7 @@ CREATE TABLE loan_broker (
     association_training_certificate VARCHAR(255) NOT NULL,
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(255) NOT NULL DEFAULT '',
+    updated_by VARCHAR(255) NULL,
     updated_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL
 );
@@ -49,7 +49,7 @@ CREATE TABLE password (
     hashed_password VARCHAR(255) NOT NULL COMMENT 'SHA-256 암호화',
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_by VARCHAR(255) NOT NULL DEFAULT '',
+    updated_by VARCHAR(255) NULL,
     updated_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL
 --     FOREIGN KEY (user_id) REFERENCES user(id)
