@@ -10,13 +10,14 @@ CREATE TABLE user (
     rrn VARBINARY(30) NULL COMMENT 'Resident Registration Number(RRN)',
     phone_number VARCHAR(20) NOT NULL,
     address VARCHAR(500) NOT NULL,
-    email VARCHAR(30) NOT NULL,
+    email VARCHAR(30) NOT NULL ,
     token VARCHAR(512) NULL,
     created_by VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_by VARCHAR(255) NULL,
     updated_at TIMESTAMP NULL,
-    deleted_at TIMESTAMP NULL
+    deleted_at TIMESTAMP NULL,
+    UNIQUE (email)
 );
 
 CREATE TABLE loan_broker (
