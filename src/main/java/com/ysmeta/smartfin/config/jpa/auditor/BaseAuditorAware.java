@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.config.auditor;
+package com.ysmeta.smartfin.config.jpa.auditor;
 
 import java.util.Optional;
 

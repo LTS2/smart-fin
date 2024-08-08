@@ -1,4 +1,4 @@
-package com.ysmeta;
+package com.ysmeta.smartfin.common;
 
 import java.time.LocalDateTime;
 
@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 공통 사용 컬럼 엔티티 관리 클래스 입니다.
+ * 공통 사용 컬럼 엔티티 관리 클래스입니다.
  *
  * @author : ewjin
  * @fileName : BaseEntity

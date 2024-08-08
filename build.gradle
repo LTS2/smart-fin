@@ -28,8 +28,21 @@ dependencies {
     /* @RestController 어노테이션 등 기본 의존성 시작 */
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     /* @RestController 어노테이션 등 기본 의존성 끝 */
+
+
+    /* Spring Security 의존성 시작 */
+    /* Jwt Claims 사용하기 위한 의존성 */
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    /* Spring Security 의존성 끝 */
+
     compileOnly 'org.projectlombok:lombok'
 
     /* yml 파일에 명시할 driver-class-name: org.mariadb.jdbc.Driver 을 인식하게 하기 위함. */
