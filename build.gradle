@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'checkstyle'
+}
+
+group = 'com.ysmeta'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /* @RestController 어노테이션 등 기본 의존성 시작 */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    /* @RestController 어노테이션 등 기본 의존성 끝 */
+    compileOnly 'org.projectlombok:lombok'
+
+    /* yml 파일에 명시할 driver-class-name: org.mariadb.jdbc.Driver 을 인식하게 하기 위함. */
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    annotationProcessor 'org.projectlombok:lombok'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+checkstyle {
+    maxWarnings = 0
+    configFile = file("${rootDir}/config/naver-checkstyle-rules.xml")
+    configProperties = ["suppressionFile": "${rootDir}/config/naver-checkstyle-suppressions.xml"]
+    toolVersion = "8.42"
+}
