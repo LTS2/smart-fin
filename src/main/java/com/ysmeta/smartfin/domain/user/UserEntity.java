@@ -1,7 +1,7 @@
 package com.ysmeta.smartfin.domain.user;
 
-import com.ysmeta.smartfin.common.BaseEntity;
-import com.ysmeta.smartfin.domain.auth.password.PasswordEntity;
+import com.ysmeta.smartfin.common.AbstractBaseEntity;
+import com.ysmeta.smartfin.domain.password.PasswordEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "USER")
-public class UserEntity extends BaseEntity {
+public class UserEntity extends AbstractBaseEntity {
 
 	/**
 	 * 이름

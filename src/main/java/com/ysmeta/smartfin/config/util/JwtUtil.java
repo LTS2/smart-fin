@@ -1,49 +1,60 @@
-// package com.ysmeta.smartfin.config.util;
-//
-// import java.util.Date;
-//
-// import org.springframework.stereotype.Component;
-//
-// import io.jsonwebtoken.Claims;
-// import io.jsonwebtoken.Jwts;
-// import io.jsonwebtoken.SignatureAlgorithm;
-//
-// /**
-//  * JwtUtil을 관리하는 클래스입니다.
-//  *
-//  * @author : ewjin
-//  * @version : 0.0.1
-//  * @since : 2024. 8. 8.
-//  */
-// @Component
-// public class JwtUtil {
-// 	private final String secret = "secretKey";
-// 	private final long validityInMilliseconds = 3600 * 1000; // 1시간
-//
-// 	public String createToken(String username) {
-// 		Claims claims = Jwts.claims().setSubject(username);
-//
-// 		Date now = new Date();
-// 		Date validity = new Date(now.getTime() + validityInMilliseconds);
-//
-// 		return Jwts.builder()
-// 			.setClaims(claims)
-// 			.setIssuedAt(now)
-// 			.setExpiration(validity)
-// 			.signWith(SignatureAlgorithm.HS256, secret)
-// 			.compact();
-// 	}
-//
-// 	public String extractUsername(String token) {
-// 		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
-// 	}
-//
-// 	public boolean validateToken(String token) {
-// 		try {
-// 			Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-// 			return true;
-// 		} catch (Exception e) {
-// 			return false;
-// 		}
-// 	}
-// }
+package com.ysmeta.smartfin.config.util;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+@Component
+public class JwtUtil {
+
+	@Value("${jwt.secret}")
+	private String secret;
+
+	@Value("${jwt.expiration}")
+	private Long expiration;
+
+	public String extractUsername(String token) {
+		return extractClaim(token, Claims::getSubject);
+	}
+
+	public Date extractExpiration(String token) {
+		return extractClaim(token, Claims::getExpiration);
+	}
+
+	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+		final Claims claims = extractAllClaims(token);
+		return claimsResolver.apply(claims);
+	}
+
+	private Claims extractAllClaims(String token) {
+		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	}
+
+	private Boolean isTokenExpired(String token) {
+		return extractExpiration(token).before(new Date());
+	}
+
+	public String generateToken(String username) {
+		Map<String, Object> claims = new HashMap<>();
+		return createToken(claims, username);
+	}
+
+	private String createToken(Map<String, Object> claims, String subject) {
+		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+			.setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+			.signWith(SignatureAlgorithm.HS256, secret).compact();
+	}
+
+	public Boolean validateToken(String token, String username) {
+		final String extractedUsername = extractUsername(token);
+		return (extractedUsername.equals(username) && !isTokenExpired(token));
+	}
+}

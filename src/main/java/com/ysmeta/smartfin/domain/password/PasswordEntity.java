@@ -1,6 +1,6 @@
-package com.ysmeta.smartfin.domain.auth.password;
+package com.ysmeta.smartfin.domain.password;
 
-import com.ysmeta.smartfin.common.BaseEntity;
+import com.ysmeta.smartfin.common.AbstractBaseEntity;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 
 import jakarta.persistence.Entity;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class PasswordEntity extends BaseEntity {
+public class PasswordEntity extends AbstractBaseEntity {
 
 	/**
 	 * 유저 아이디 외래키

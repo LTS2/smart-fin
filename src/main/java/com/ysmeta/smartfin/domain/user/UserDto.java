@@ -1,6 +1,6 @@
 package com.ysmeta.smartfin.domain.user;
 
-import com.ysmeta.smartfin.common.BaseDto;
+import com.ysmeta.smartfin.common.AbstractBaseDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class UserDto extends BaseDto {
+public class UserDto extends AbstractBaseDto {
 
 	private String name;
 	private String rrn;

@@ -1,6 +1,6 @@
-package com.ysmeta.smartfin.domain.auth.password;
+package com.ysmeta.smartfin.domain.password;
 
-import com.ysmeta.smartfin.common.BaseDto;
+import com.ysmeta.smartfin.common.AbstractBaseDto;
 import com.ysmeta.smartfin.domain.user.UserDto;
 
 import lombok.Getter;
@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PasswordDto extends BaseDto {
+public class PasswordDto extends AbstractBaseDto {
 
 	/**
 	 * 유저 아이디 외래키

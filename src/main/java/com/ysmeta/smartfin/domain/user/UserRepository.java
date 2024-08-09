@@ -12,7 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since : 2024. 8. 8.
  */
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-	// UserEntity findByEmail(String username);
-
 	Optional<UserEntity> findByEmail(String email);
 }

@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public abstract class BaseEntity {
+public abstract class AbstractBaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
