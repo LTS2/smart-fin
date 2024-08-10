@@ -38,8 +38,6 @@ public class UserService {
 	 * @return 이메일에 해당하는 사용자가 존재하면 true, 그렇지 않으면 false
 	 */
 	public boolean isUser(String email) {
-		boolean isUser = userRepository.findByEmail(email).isPresent();
-		log.info("유저가 있나요 isUser = {}", isUser);
 		return userRepository.findByEmail(email).isPresent();
 	}
 
@@ -52,3 +50,4 @@ public class UserService {
 		userRepository.save(user);
 	}
 }
+

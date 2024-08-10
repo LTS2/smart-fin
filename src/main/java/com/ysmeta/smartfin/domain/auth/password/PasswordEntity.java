@@ -1,9 +1,11 @@
-package com.ysmeta.smartfin.domain.password;
+package com.ysmeta.smartfin.domain.auth.password;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
@@ -18,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Entity
+@Entity(name = "PASSWORD")
 public class PasswordEntity extends AbstractBaseEntity {
 
 	/**
@@ -26,7 +28,7 @@ public class PasswordEntity extends AbstractBaseEntity {
 	 * cascade = 유저가 생성, 삭제될 때 비밀번호도 함께 생성, 삭제되도록 설정
 	 */
 	@OneToOne
-	@JoinColumn(name = "USER_ID")
+	@JoinColumn(name = "USER_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private UserEntity user;
 
 	/**

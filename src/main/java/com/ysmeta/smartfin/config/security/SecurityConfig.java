@@ -28,18 +28,11 @@ public class SecurityConfig {
 				.requestMatchers("/api/auth/**").permitAll()
 				.anyRequest().authenticated()
 			)
-			.formLogin(login -> login
-				.loginPage("/login").permitAll()
-				.loginProcessingUrl("/loginProc").permitAll()
-				.defaultSuccessUrl("/", true)
-				.failureUrl("/login?error=true")
-			)
-			.logout(logout -> logout
-				.logoutSuccessUrl("/login?logout=true")
-				.permitAll()
-			)
+			
 			.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.maximumSessions(1) // 세션 최대 허용 수
+				.maxSessionsPreventsLogin(false) // false: 중복 로그인 하면 이전 로그인이 풀림
 			);
 
 		// http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.domain.password;
+package com.ysmeta.smartfin.domain.auth.password;
 
 import com.ysmeta.smartfin.common.AbstractBaseDto;
 import com.ysmeta.smartfin.domain.user.UserDto;

@@ -2,9 +2,7 @@ package com.ysmeta.smartfin.common;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,13 +32,13 @@ public abstract class AbstractBaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	/**
 	 * 생성 날짜
 	 */
 	@CreatedDate
 	@Column(name = "CREATED_AT", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	/**
 	 * 수정 날짜
@@ -55,19 +53,19 @@ public abstract class AbstractBaseEntity {
 	@Column(name = "DELETED_AT")
 	private LocalDateTime deletedAt;
 
-	/**
-	 * 생성한 사람
-	 */
-	@CreatedBy
-	@Column(name = "CREATED_BY", nullable = false, updatable = false)
-	private String createdBy;
-
-	/**
-	 * 수정한 사람
-	 */
-	@LastModifiedBy
-	@Column(name = "UPDATED_BY")
-	private String updatedBy;
+	// /**
+	//  * 생성한 사람
+	//  */
+	// @CreatedBy
+	// @Column(name = "CREATED_BY", nullable = false, updatable = false)
+	// private String createdBy;
+	//
+	// /**
+	//  * 수정한 사람
+	//  */
+	// @LastModifiedBy
+	// @Column(name = "UPDATED_BY")
+	// private String updatedBy;
 
 	// /** 생성 날짜 업데이트 */
 	// @PrePersist

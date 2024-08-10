@@ -1,7 +1,6 @@
 package com.ysmeta.smartfin.config.util;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -11,15 +10,29 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtUtil {
+	private final String secretKey;
+	private final Long expiration;
 
-	@Value("${jwt.secret}")
-	private String secret;
+	public JwtUtil(
+		@Value("${jwt.secret}") String secretKey,
+		@Value("${jwt.expiration}") Long expiration) {
+		this.secretKey = secretKey;
+		this.expiration = expiration;
+	}
 
-	@Value("${jwt.expiration}")
-	private Long expiration;
+	public String generateToken(String email) {
+		return Jwts.builder()
+			.setSubject(email)
+			.setIssuedAt(new Date())
+			.setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
+			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.compact();
+	}
 
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
@@ -35,22 +48,21 @@ public class JwtUtil {
 	}
 
 	private Claims extractAllClaims(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
 	}
 
 	private Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
 
-	public String generateToken(String username) {
-		Map<String, Object> claims = new HashMap<>();
-		return createToken(claims, username);
-	}
-
 	private String createToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder()
+			.setClaims(claims)
+			.setSubject(subject)
+			.setIssuedAt(new Date(System.currentTimeMillis()))
 			.setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
-			.signWith(SignatureAlgorithm.HS256, secret).compact();
+			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.compact();
 	}
 
 	public Boolean validateToken(String token, String username) {

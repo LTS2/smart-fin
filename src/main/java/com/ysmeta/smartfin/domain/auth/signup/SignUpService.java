@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.domain.auth.service;
+package com.ysmeta.smartfin.domain.auth.signup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
