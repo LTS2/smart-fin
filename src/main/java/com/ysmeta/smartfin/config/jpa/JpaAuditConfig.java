@@ -20,9 +20,9 @@ import com.ysmeta.smartfin.config.jpa.auditor.BaseAuditorAware;
 )
 @Configuration
 public class JpaAuditConfig {
+
 	@Bean
 	public AuditorAware<Long> auditorProvider() {
 		return new BaseAuditorAware();
 	}
-
 }

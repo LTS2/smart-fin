@@ -1,9 +1,9 @@
 package com.ysmeta.smartfin.domain.user;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 사용자 관련 서비스 클래스입니다.
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
  * @since : 2024. 8. 8.
  */
 @Service
-public class UserService {
+@Slf4j
+public class UserService implements IUserService {
 
-	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
@@ -37,6 +37,7 @@ public class UserService {
 	 * @param email 확인할 사용자의 이메일 주소
 	 * @return 이메일에 해당하는 사용자가 존재하면 true, 그렇지 않으면 false
 	 */
+	@Override
 	public boolean isUser(String email) {
 		return userRepository.findByEmail(email).isPresent();
 	}
@@ -46,8 +47,15 @@ public class UserService {
 	 *
 	 * @param user 저장할 사용자 엔티티
 	 */
+	@Override
 	public void saveUser(UserEntity user) {
 		userRepository.save(user);
 	}
+
+	@Override
+	public void deleteUser(String user) {
+		// userRepository.delete();
+	}
+
 }
 

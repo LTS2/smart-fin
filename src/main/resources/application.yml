@@ -2,9 +2,16 @@ spring:
   application:
     name: smart-fin
   datasource:
-    url: jdbc:mariadb://localhost:3306/smart_fin
-    username: root
-    password: 1234
+    #    url: jdbc:mariadb://localhost:3306/smart_fin
+    #    username: root
+    #    password: 1234
+
+    # Galaxy Note9 hotSpot 회사 맥북 원격 주소
+    #    url: jdbc:mariadb://192.168.43.204:3306/smart_fin
+    # 집 공유기 원격 주소
+    url: jdbc:mariadb://192.168.219.112:3306/smart_fin
+    username: remote_access
+    password: dldnwls1
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:

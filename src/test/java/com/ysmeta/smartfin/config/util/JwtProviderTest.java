@@ -7,8 +7,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.ysmeta.smartfin.config.auth.jwt.JwtProvider;
+
 import io.jsonwebtoken.Jwts;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT 토큰 관리 테스트 클래스입니다.
@@ -22,10 +23,9 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2024. 8. 9.
  */
 @SpringBootTest
-@Slf4j
-class JwtUtilTest {
+class JwtProviderTest {
 
-	private JwtUtil jwtUtil;
+	private JwtProvider jwtProvider;
 
 	/**
 	 * 각 테스트 메서드가 실행되기 전에 호출됩니다.<br>
@@ -36,7 +36,7 @@ class JwtUtilTest {
 		String secretKey = "testSecretKey";
 		Long expiration = 3600000L; // 1시간
 
-		jwtUtil = new JwtUtil(secretKey, expiration);
+		jwtProvider = new JwtProvider(secretKey, expiration);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class JwtUtilTest {
 		String email = "test@example.com";
 
 		// when: 이메일을 기반으로 JWT 토큰을 생성할 때
-		String token = jwtUtil.generateToken(email);
+		String token = jwtProvider.generateToken(email);
 
 		// then: 토큰이 null 또는 비어 있지 않고, subject로부터 올바른 이메일을 추출할 수 있어야 함
 		assertNotNull(token, "JWT 토큰은 null이 아니어야 합니다.");
@@ -69,9 +69,6 @@ class JwtUtilTest {
 			.parseClaimsJws(token)
 			.getBody()
 			.getSubject();
-
-		log.info("extracted email: {}", extractedEmail);
-		log.info("extracted token: {}", token);
 
 		// 추출된 이메일이 원래의 이메일과 동일한지 확인
 		assertEquals(email, extractedEmail, "추출된 이메일이 원래의 이메일과 일치해야 합니다.");

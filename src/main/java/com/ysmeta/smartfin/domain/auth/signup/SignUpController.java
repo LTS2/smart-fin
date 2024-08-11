@@ -34,20 +34,22 @@ public class SignUpController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<String> signUp(@RequestBody UserDto userDto) {
-		boolean isSignedUp = signUpService.signUp(userDto);
+	public ResponseEntity<String> signUp(@RequestBody UserDto.CreateUserRequestDto userDto) {
+		// boolean isSignedUp = signUpService.signUp(userDto);
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(URI.create("/api/users/123")); // 새로 생성된 리소스의 URL
-		if (isSignedUp) {
+		headers.setLocation(URI.create("/api/users/123")); // 새로 생성된 리소스의 URL TODO: 이건 뭔지 찾아보기
+		// if (isSignedUp) {
+		if (true) {
 			return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.headers(headers)
 				.body("회원가입 완료");
-		} else {
-			// 409 = 이미 존재하는 회원일 경우 에러코드
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 회원");
-			// return ResponseEntity.badRequest().body("User already exists");
 		}
+		// 409 = 이미 존재하는 회원일 경우 에러코드
+		return ResponseEntity.status(HttpStatus.CONFLICT)
+			.body("이미 존재하는 회원");
+		// return ResponseEntity.badRequest().body("User already exists");
+
 	}
 
 	@PostMapping("/d")
