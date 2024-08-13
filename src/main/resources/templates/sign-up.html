@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>회원가입</title>
     <style>
         body {
@@ -81,23 +81,23 @@
     <h1>회원가입</h1>
     <form action="/signup" method="post">
         <label for="name">이름</label>
-        <input type="text" id="name" name="name" required>
+        <input id="name" name="name" required type="text">
 
         <label for="email">이메일</label>
-        <input type="email" id="email" name="email" required>
+        <input id="email" name="email" required type="email">
 
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" required>
+        <input id="password" name="password" required type="password">
 
         <div class="info-text">문자, 숫자 및 기호를 혼합하여 8자 이상을 사용하시기 바랍니다.</div>
 
         <label for="passwordConfirm">비밀번호 확인</label>
-        <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+        <input id="passwordConfirm" name="passwordConfirm" required type="password">
 
-        <a href="#" class="link">서비스 이용약관 확인하기</a>
+        <a class="link" href="#">서비스 이용약관 확인하기</a>
 
         <button type="submit">가입하기</button>
-        <a href="/brokerRegistration" class="link">중개사 등록하기</a>
+        <a class="link" href="/brokerRegistration">중개사 등록하기</a>
     </form>
 </div>
 </body>

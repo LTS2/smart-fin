@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.domain.user;
+package com.ysmeta.smartfin.domain.admin;
 
 import com.ysmeta.smartfin.common.AbstractBaseDto;
 
@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
-public class UserDto extends AbstractBaseDto {
+public class AdminDto extends AbstractBaseDto {
 
 	// 공통 필드
 	private String name;
@@ -43,7 +43,7 @@ public class UserDto extends AbstractBaseDto {
 	@Setter
 	@NoArgsConstructor
 	@SuperBuilder
-	public static class CreateUserRequestDto extends UserDto {
+	public static class CreateAdminRequestDto extends AdminDto {
 
 		@NotBlank(message = "이름은 필수 입력값입니다.")
 		private String name;
@@ -53,8 +53,8 @@ public class UserDto extends AbstractBaseDto {
 		private String email;
 
 		// 엔티티를 DTO로 변환하는 메서드
-		public UserEntity toEntity() {
-			return UserEntity.builder()
+		public AdminEntity toEntity() {
+			return AdminEntity.builder()
 				.name(this.name)
 				.email(this.email)
 				.rrn(this.getRrn())
@@ -149,7 +149,7 @@ public class UserDto extends AbstractBaseDto {
 		private String address;
 
 		// 엔티티를 DTO로 변환하는 메서드
-		public UserEntity toEntity(UserEntity existingUser) {
+		public AdminEntity toEntity(AdminEntity existingUser) {
 			// existingUser.setName(this.name != null ? this.name : existingUser.getName());
 			// existingUser.setPhoneNumber(this.phoneNumber != null ? this.phoneNumber : existingUser.getPhoneNumber());
 			// existingUser.setAddress(this.address != null ? this.address : existingUser.getAddress());
@@ -169,16 +169,16 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@Setter
 	@SuperBuilder
-	public static class UpdateUserResponseDto extends UserDto {
+	public static class UpdateAdminResponseDto extends AdminDto {
 
 		// 엔티티에서 변환하는 메서드
-		public static UpdateUserResponseDto fromEntity(UserEntity userEntity) {
-			return (UpdateUserResponseDto)UpdateUserResponseDto.builder()
-				.name(userEntity.getName())
-				.email(userEntity.getEmail())
-				.rrn(userEntity.getRrn())
-				.phoneNumber(userEntity.getPhoneNumber())
-				.address(userEntity.getAddress())
+		public static UpdateAdminResponseDto fromEntity(AdminEntity adminEntity) {
+			return (UpdateAdminResponseDto)UpdateAdminResponseDto.builder()
+				.name(adminEntity.getName())
+				.email(adminEntity.getEmail())
+				.rrn(adminEntity.getRrn())
+				.phoneNumber(adminEntity.getPhoneNumber())
+				.address(adminEntity.getAddress())
 				.build();
 		}
 	}

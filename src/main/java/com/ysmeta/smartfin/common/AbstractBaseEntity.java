@@ -2,7 +2,9 @@ package com.ysmeta.smartfin.common;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,7 +15,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreRemove;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,13 +31,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 @Getter
 public abstract class AbstractBaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	/**
 	 * 생성 날짜
 	 */
@@ -53,21 +60,23 @@ public abstract class AbstractBaseEntity {
 	@Column(name = "DELETED_AT")
 	private LocalDateTime deletedAt;
 
-	// /**
-	//  * 생성한 사람
-	//  */
-	// @CreatedBy
-	// @Column(name = "CREATED_BY", nullable = false, updatable = false)
-	// private String createdBy;
-	//
-	// /**
-	//  * 수정한 사람
-	//  */
-	// @LastModifiedBy
-	// @Column(name = "UPDATED_BY")
-	// private String updatedBy;
+	/**
+	 * 생성한 사람
+	 */
+	@CreatedBy
+	@Column(name = "CREATED_BY", nullable = false, updatable = false)
+	private String createdBy;
 
-	// /** 생성 날짜 업데이트 */
+	/**
+	 * 수정한 사람
+	 */
+	@LastModifiedBy
+	@Column(name = "UPDATED_BY")
+	private String updatedBy;
+
+	// /**
+	//  * 생성 날짜 업데이트
+	//  */
 	// @PrePersist
 	// protected void onCreate() {
 	// 	LocalDateTime now = LocalDateTime.now();
@@ -75,7 +84,9 @@ public abstract class AbstractBaseEntity {
 	// 	this.updatedAt = now;
 	// }
 	//
-	// /** 수정 날짜 업데이트 */
+	// /**
+	//  * 수정 날짜 업데이트
+	//  */
 	// @PreUpdate
 	// protected void onUpdate() {
 	// 	this.updatedAt = LocalDateTime.now();

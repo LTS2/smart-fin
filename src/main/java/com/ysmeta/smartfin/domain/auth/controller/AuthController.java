@@ -4,7 +4,7 @@
 // import org.springframework.web.bind.annotation.RestController;
 //
 // import com.ysmeta.smartfin.config.util.JwtUtil;
-// import com.ysmeta.smartfin.domain.user.UserService;
+// import com.ysmeta.smartfin.domain.user.service.UserService;
 //
 // /**
 //  * 사용자 인증 컨트롤러 클래스입니다.

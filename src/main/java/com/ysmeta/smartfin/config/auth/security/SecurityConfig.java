@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.config.security;
+package com.ysmeta.smartfin.config.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,10 +25,11 @@ public class SecurityConfig {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/api/auth/**").permitAll()
-				.anyRequest().authenticated()
+					.requestMatchers("/api/auth/**").permitAll()
+					.anyRequest().permitAll()
+				// .anyRequest().authenticated()
 			)
-			
+
 			.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.maximumSessions(1) // 세션 최대 허용 수

@@ -1,4 +1,4 @@
-package com.ysmeta.smartfin.domain.user;
+package com.ysmeta.smartfin.domain.admin;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
 
@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "USER")
-public class UserEntity extends AbstractBaseEntity {
+public class AdminEntity extends AbstractBaseEntity {
 
 	/**
 	 * 이름
@@ -52,7 +52,7 @@ public class UserEntity extends AbstractBaseEntity {
 	 */
 	String token;
 
-	public static UserEntity fromEmail(String email) {
-		return UserEntity.builder().email(email).build();
+	public static AdminEntity fromEmail(String email) {
+		return AdminEntity.builder().email(email).build();
 	}
 }

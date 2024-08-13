@@ -14,15 +14,12 @@ import com.ysmeta.smartfin.config.jpa.auditor.BaseAuditorAware;
  * @fileName : JpaAuditConfig
  * @since : 2024. 8. 2.
  */
-@EnableJpaAuditing(
-	auditorAwareRef = "baseAuditorAware"
-	// dateTimeProviderRef = "baseAuditorAware"
-)
+@EnableJpaAuditing(auditorAwareRef = "baseAuditorAware")
 @Configuration
 public class JpaAuditConfig {
+
 	@Bean
-	public AuditorAware<Long> auditorProvider() {
+	public AuditorAware<String> auditorProvider() {
 		return new BaseAuditorAware();
 	}
-
 }
