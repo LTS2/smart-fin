@@ -51,7 +51,15 @@ dependencies {
 //    compileOnly 'io.jsonwebtoken:jjwt-annotations:0.11.5'
 //    runtimeOnly 'io.jsonwebtoken:jjwt-orgjson:0.11.5'
     /* Spring Security 의존성 끝 */
-
+    
+    /* @NotBlank, @Email @Valid 등 Dto 에서 유효성 검사용 */
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+//    implementation 'org.hibernate.validator:hibernate-validator:9.0.0.Beta2'
+    implementation 'org.hibernate.validator:hibernate-validator:7.0.0.Final'
+    //    implementation 'org.glassfish:javax.el:3.0.0' 보안 취약성으로 아래로 수정
+    // https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api
+    implementation 'jakarta.el:jakarta.el-api:6.0.1'
 
 
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:3.0.1'
@@ -74,7 +82,9 @@ tasks.named('test') {
 
 checkstyle {
     maxWarnings = 0
-    configFile = file("${rootDir}/config/naver-checkstyle-rules.xml")
+    configFile = file("${rootDir}/config/naver-checkstyle-rules.xml") as Object
     configProperties = ["suppressionFile": "${rootDir}/config/naver-checkstyle-suppressions.xml"]
     toolVersion = "8.42"
 }
+
+
