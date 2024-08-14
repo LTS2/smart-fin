@@ -55,7 +55,7 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto.CreateUserRequestDto createUserRequestDto,
 		BindingResult bindingResult) {
-		// 유효성 검사에서 오류가 있는 경우
+		// 유효성 검사에서 오류가 있는 경우 400 에러
 		if (bindingResult.hasErrors()) {
 			String errorMessage = ErrorMessageHelper.getOrDefaultErrorMessage(bindingResult);
 			log.info("유효성 검사를 통과하지 못했습니다.: {}", errorMessage);
@@ -65,9 +65,9 @@ public class UserController {
 		try {
 			userApplicationService.registerUser(createUserRequestDto);
 			log.info("사용자 {}가 성공적으로 등록되었습니다.", createUserRequestDto.getEmail());
-			return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료");
+			return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료"); // STATUS_CODE: 201
 		} catch (IllegalStateException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 사용자입니다.");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 사용자입니다."); // STATUS_CODE: 409
 		}
 	}
 }
