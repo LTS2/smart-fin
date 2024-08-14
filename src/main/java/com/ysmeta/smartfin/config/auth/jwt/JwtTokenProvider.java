@@ -18,12 +18,16 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author ewjin
  * @version 0.0.1
+ * @link https://lealea.tistory.com/144
  * @since 2024. 8. 11.
  */
-@Component
 @Slf4j
-public class JwtProvider {
-
+@Component
+public class JwtTokenProvider {
+	private static final String AUTHORITIES_KEY = "auth";
+	private static final String BEARER_TYPE = "bearer";
+	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 30분
+	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
 	private final String secretKey;
 	private final Long expiration;
 
@@ -33,7 +37,7 @@ public class JwtProvider {
 	 * @param secretKey  JWT를 서명하기 위한 비밀 키입니다.
 	 * @param expiration JWT의 만료 시간(초 단위)입니다.
 	 */
-	public JwtProvider(
+	public JwtTokenProvider(
 		@Value("${jwt.secret}") String secretKey,
 		@Value("${jwt.expiration}") Long expiration) {
 		this.secretKey = secretKey;

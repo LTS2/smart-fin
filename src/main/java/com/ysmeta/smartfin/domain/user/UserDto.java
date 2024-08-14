@@ -4,6 +4,7 @@ import com.ysmeta.smartfin.common.AbstractBaseDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,7 @@ public class UserDto extends AbstractBaseDto {
 	// 공통 필드
 	private String name;
 	private String email;
-	private String rrn;
-	private String phoneNumber;
-	private String address;
+	private String companyName;
 
 	/**
 	 * 사용자 생성 요청 DTO 클래스입니다.
@@ -52,14 +51,22 @@ public class UserDto extends AbstractBaseDto {
 		@Email(message = "이메일 형식이 올바르지 않습니다.")
 		private String email;
 
+		@NotBlank(message = "회사명은 필수 입력값입니다.")
+		private String companyName;
+
+		@NotBlank(message = "비밀번호는 필수 입력값입니다.")
+		// @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$",
+		// message = "비밀번호는 최소 8자 이상, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.") 더 강력한 조건
+		@Pattern(regexp = "^(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,64}$",
+			message = "비밀번호는 최소 8자 이상, 최대 64자 이하이어야 하며, 특수문자 1개 이상을 포함해야 합니다.")
+		private String password;
+
 		// 엔티티를 DTO로 변환하는 메서드
 		public UserEntity toEntity() {
 			return UserEntity.builder()
 				.name(this.name)
 				.email(this.email)
-				.rrn(this.getRrn())
-				.phoneNumber(this.getPhoneNumber())
-				.address(this.getAddress())
+				.companyName(this.companyName)
 				.build();
 		}
 	}
@@ -176,9 +183,6 @@ public class UserDto extends AbstractBaseDto {
 			return (UpdateUserResponseDto)UpdateUserResponseDto.builder()
 				.name(userEntity.getName())
 				.email(userEntity.getEmail())
-				.rrn(userEntity.getRrn())
-				.phoneNumber(userEntity.getPhoneNumber())
-				.address(userEntity.getAddress())
 				.build();
 		}
 	}

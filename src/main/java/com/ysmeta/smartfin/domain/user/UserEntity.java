@@ -28,29 +28,12 @@ public class UserEntity extends AbstractBaseEntity {
 	String name;
 
 	/**
-	 * 주민 등록 번호 (Resident Registration Number)
-	 */
-	String rrn;
-	/**
-	 * 전화번호
-	 */
-	String phoneNumber;
-
-	/**
-	 * 주소
-	 */
-	String address;
-
-	/**
 	 * 이메일
 	 */
 	@Column(unique = true, nullable = false)
 	String email;
 
-	/**
-	 * 토큰
-	 */
-	String token;
+	String companyName;
 
 	public static UserEntity fromEmail(String email) {
 		return UserEntity.builder().email(email).build();

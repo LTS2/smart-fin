@@ -27,7 +27,7 @@ class AuditorTest {
 		UserEntity user = UserEntity.builder()
 			.name("Test User")
 			.email("test@example.com")
-			.phoneNumber("010-1234-5678")
+			.companyName("Test Company")
 			.build();
 
 		// When

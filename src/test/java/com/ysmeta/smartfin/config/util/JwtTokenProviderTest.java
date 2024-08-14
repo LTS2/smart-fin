@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ysmeta.smartfin.config.auth.jwt.JwtProvider;
+import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
 
 import io.jsonwebtoken.Jwts;
 
@@ -23,9 +23,9 @@ import io.jsonwebtoken.Jwts;
  * @since : 2024. 8. 9.
  */
 @SpringBootTest
-class JwtProviderTest {
+class JwtTokenProviderTest {
 
-	private JwtProvider jwtProvider;
+	private JwtTokenProvider jwtTokenProvider;
 
 	/**
 	 * 각 테스트 메서드가 실행되기 전에 호출됩니다.<br>
@@ -36,7 +36,7 @@ class JwtProviderTest {
 		String secretKey = "testSecretKey";
 		Long expiration = 3600000L; // 1시간
 
-		jwtProvider = new JwtProvider(secretKey, expiration);
+		jwtTokenProvider = new JwtTokenProvider(secretKey, expiration);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class JwtProviderTest {
 		String email = "test@example.com";
 
 		// when: 이메일을 기반으로 JWT 토큰을 생성할 때
-		String token = jwtProvider.generateToken(email);
+		String token = jwtTokenProvider.generateToken(email);
 
 		// then: 토큰이 null 또는 비어 있지 않고, subject로부터 올바른 이메일을 추출할 수 있어야 함
 		assertNotNull(token, "JWT 토큰은 null이 아니어야 합니다.");

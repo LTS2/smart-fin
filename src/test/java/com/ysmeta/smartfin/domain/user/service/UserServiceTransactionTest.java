@@ -6,19 +6,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ysmeta.smartfin.domain.user.UserDto;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;
-import com.ysmeta.smartfin.domain.user.service.cqrs.UserCommandService;
 import com.ysmeta.smartfin.domain.user.service.cqrs.UserQueryService;
 
+// TODO: WithMockUser 관련 제거 가능 여부 확인
 @SpringBootTest
 class UserServiceTransactionTest {
 
@@ -26,26 +28,32 @@ class UserServiceTransactionTest {
 	private UserRepository userRepository;
 
 	@Autowired
-	private UserCommandService userCommandService;
+	private UserApplicationService userApplicationService;
 
 	@Autowired
 	private UserQueryService userQueryService;
 
+	private UserDto.CreateUserRequestDto createUserRequestDto;
+
+	@BeforeEach
+	void setUp() {
+		createUserRequestDto = UserDto.CreateUserRequestDto.builder()
+			.name("Test User")
+			.email("test@example.com")
+			.companyName("Test Company")
+			.password("12341234")
+			.build();
+	}
+
 	@Test
+	@WithMockUser(username = "testUser")
 	@DisplayName("회원가입 후 데이터베이스에 저장된 사용자 확인 테스트")
-	@Commit
-	@Transactional
 	void testRegisterUserAndCheckDatabase() {
 		// Given
-		String email = "test@example.com";
-		UserEntity user = UserEntity.builder()
-			.name("Test User")
-			.email(email)
-			.phoneNumber("010-1234-5678")
-			.build();
+		String email = createUserRequestDto.getEmail();
 
 		// When
-		userCommandService.registerUser(user);
+		userApplicationService.registerUser(createUserRequestDto);
 
 		// Then
 		Optional<UserEntity> foundUser = userQueryService.findByEmail(email);
@@ -54,6 +62,7 @@ class UserServiceTransactionTest {
 	}
 
 	@Test
+	@WithMockUser(username = "testUser")
 	@DisplayName("별도의 트랜잭션에서 사용자 등록 및 확인 테스트")
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	void testRegisterUserWithSeparateTransactions() {
@@ -62,11 +71,10 @@ class UserServiceTransactionTest {
 		UserEntity user = UserEntity.builder()
 			.name("Test User")
 			.email(email)
-			.phoneNumber("010-1234-5678")
 			.build();
 
 		// When
-		userCommandService.registerUser(user);
+		userApplicationService.registerUser(createUserRequestDto);
 
 		// Then
 		assertTrue(userQueryService.hasUser(email));
@@ -75,7 +83,9 @@ class UserServiceTransactionTest {
 		assertFalse(userQueryService.hasUser("nonexistent@example.com"));
 	}
 
+	// TODO: 이 테스트 성공시키기
 	@Test
+	@WithMockUser(username = "testUser")
 	@DisplayName("트랜잭션 격리 수준 테스트")
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	void testTransactionalIsolation() throws InterruptedException {
@@ -90,7 +100,7 @@ class UserServiceTransactionTest {
 
 		// 첫 번째 트랜잭션 시작
 		new Thread(() -> {
-			userCommandService.registerUser(user);
+			userApplicationService.registerUser(createUserRequestDto);
 			latch.countDown(); // 트랜잭션이 끝나면 latch 감소
 		}).start();
 
