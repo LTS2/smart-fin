@@ -5,6 +5,7 @@ import com.ysmeta.smartfin.domain.user.UserEntity;
 
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -30,7 +31,7 @@ public class PasswordEntity extends AbstractBaseEntity {
 	 * 유저 아이디 외래키
 	 * cascade = 유저가 생성, 삭제될 때 비밀번호도 함께 생성, 삭제되도록 설정
 	 */
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USER_ID", unique = true, nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private UserEntity user;
 

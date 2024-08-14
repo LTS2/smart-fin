@@ -23,11 +23,11 @@ class UserControllerTest {
 	private UserApplicationService userApplicationService;
 
 	@Test
-	@DisplayName("SUCCESS 유저 비밀번호를 Bcrypt 암호화 하여 저장한다")
+	@DisplayName("1. SUCCESS 로그인 시 엑세스 토큰과 리프레시 토큰 발급")
 	void testSaveBcryptPassword() {
 		// given
 		UserDto userDto = new UserDto();
-		
+
 		// when
 
 		// then
