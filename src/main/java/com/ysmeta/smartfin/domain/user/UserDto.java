@@ -42,7 +42,7 @@ public class UserDto extends AbstractBaseDto {
 	@Setter
 	@NoArgsConstructor
 	@SuperBuilder
-	public static class CreateUserRequestDto extends UserDto {
+	public static class CreateRequest extends UserDto {
 
 		@NotBlank(message = "이름은 필수 입력값입니다.")
 		private String name;
@@ -109,7 +109,7 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@Setter
 	@SuperBuilder
-	public static class DeleteUserRequestDto {
+	public static class DeleteRequest {
 
 		@NotBlank(message = "이메일은 필수 입력값입니다.")
 		@Email(message = "이메일 형식이 올바르지 않습니다.")
@@ -128,7 +128,7 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@Setter
 	@SuperBuilder
-	public static class DeleteUserResponseDto {
+	public static class DeleteResponse {
 
 		private String message;
 	}
@@ -145,7 +145,7 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@Setter // Setter 를 없애고 toEntity 메서드를 없애야하나..?
 	@SuperBuilder
-	public static class UpdateUserRequestDto {
+	public static class UpdateRequest {
 
 		@NotBlank(message = "이메일은 필수 입력값입니다.")
 		@Email(message = "이메일 형식이 올바르지 않습니다.")
@@ -176,11 +176,11 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@Setter
 	@SuperBuilder
-	public static class UpdateUserResponseDto extends UserDto {
+	public static class UpdateResponse extends UserDto {
 
 		// 엔티티에서 변환하는 메서드
-		public static UpdateUserResponseDto fromEntity(UserEntity userEntity) {
-			return (UpdateUserResponseDto)UpdateUserResponseDto.builder()
+		public static UpdateResponse fromEntity(UserEntity userEntity) {
+			return (UpdateResponse)UpdateResponse.builder()
 				.name(userEntity.getName())
 				.email(userEntity.getEmail())
 				.build();

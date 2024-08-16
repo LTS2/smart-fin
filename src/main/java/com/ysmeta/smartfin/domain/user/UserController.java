@@ -1,5 +1,7 @@
 package com.ysmeta.smartfin.domain.user;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +50,12 @@ public class UserController {
 	 * 유효성 검사에 실패할 경우 적절한 오류 메시지를 반환합니다.
 	 * 유효성 검사에 통과하면 회원가입 로직을 처리하고, 성공적인 응답을 반환합니다.
 	 *
-	 * @param createUserRequestDto 유효성 검사를 수행할 사용자 요청 데이터 객체
+	 * @param userCreateRequestDto 유효성 검사를 수행할 사용자 요청 데이터 객체
 	 * @param bindingResult        유효성 검사 결과를 담고 있는 BindingResult 객체
 	 * @return ResponseEntity 객체로 HTTP 상태 코드와 메시지를 포함한 응답을 반환합니다.
 	 */
 	@PostMapping
-	public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto.CreateUserRequestDto createUserRequestDto,
+	public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto.CreateRequest userCreateRequestDto,
 		BindingResult bindingResult) {
 		// 유효성 검사에서 오류가 있는 경우 400 에러
 		if (bindingResult.hasErrors()) {
@@ -63,11 +65,15 @@ public class UserController {
 		}
 
 		try {
-			userApplicationService.registerUser(createUserRequestDto);
-			log.info("사용자 {}가 성공적으로 등록되었습니다.", createUserRequestDto.getEmail());
+			userApplicationService.registerUser(userCreateRequestDto);
+			log.info("사용자 {}가 성공적으로 등록되었습니다.", userCreateRequestDto.getEmail());
 			return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료"); // STATUS_CODE: 201
 		} catch (IllegalStateException e) {
+			log.error("알 수 없는 알고리즘 예외 발생: ", e);
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 사용자입니다."); // STATUS_CODE: 409
+		} catch (NoSuchAlgorithmException e) {
+			log.error("알 수 없는 알고리즘 예외 발생: ", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다."); // STATUS_CODE: 500
 		}
 	}
 }
