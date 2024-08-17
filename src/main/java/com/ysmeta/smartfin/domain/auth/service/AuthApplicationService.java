@@ -62,8 +62,6 @@ public class AuthApplicationService {
 			throw new UserAlreadyExistsException("이미 존재하는 사용자입니다.");
 		}
 		String encryptedPassword = passwordEncoder.encode(password);
-		String salt = generateSalt();
-		password += salt;
 
 		PasswordEntity passwordEntity = PasswordEntity.builder()
 			.user(userEntity)
