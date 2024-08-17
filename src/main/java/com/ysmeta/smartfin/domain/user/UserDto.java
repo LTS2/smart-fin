@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -19,7 +18,6 @@ import lombok.experimental.SuperBuilder;
  * @since : 2024. 8. 8
  */
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SuperBuilder
 public class UserDto extends AbstractBaseDto {
@@ -39,7 +37,6 @@ public class UserDto extends AbstractBaseDto {
 	 * @since : 2024. 8. 8
 	 */
 	@Getter
-	@Setter
 	@NoArgsConstructor
 	@SuperBuilder
 	public static class CreateRequest extends UserDto {
@@ -67,6 +64,35 @@ public class UserDto extends AbstractBaseDto {
 				.name(this.name)
 				.email(this.email)
 				.companyName(this.companyName)
+				.build();
+		}
+	}
+
+	/**
+	 * 로그인 요청 DTO 클래스입니다.
+	 * <p>
+	 * 이 클래스는 로그인 시 사용자가 입력한 이메일과 비밀번호를 포함합니다.
+	 *
+	 * @author : ewjin
+	 * @version : 0.0.1
+	 * @since : 2024. 8. 11.
+	 */
+	@Getter
+	@NoArgsConstructor
+	@SuperBuilder
+	public static class LoginRequest {
+
+		@NotBlank(message = "이메일은 필수 입력값입니다.")
+		@Email(message = "이메일 형식이 올바르지 않습니다.")
+		private String email;
+
+		@NotBlank(message = "비밀번호는 필수 입력값입니다.")
+		private String password;
+
+		// 엔티티를 DTO로 변환하는 메서드
+		public UserEntity toEntity() {
+			return UserEntity.builder()
+				.email(this.email)
 				.build();
 		}
 	}
@@ -107,7 +133,6 @@ public class UserDto extends AbstractBaseDto {
 	 * @since : 2024. 8. 8
 	 */
 	@Getter
-	@Setter
 	@SuperBuilder
 	public static class DeleteRequest {
 
@@ -126,7 +151,6 @@ public class UserDto extends AbstractBaseDto {
 	 * @since : 2024. 8. 8
 	 */
 	@Getter
-	@Setter
 	@SuperBuilder
 	public static class DeleteResponse {
 
@@ -143,7 +167,6 @@ public class UserDto extends AbstractBaseDto {
 	 * @since : 2024. 8. 8
 	 */
 	@Getter
-	@Setter // Setter 를 없애고 toEntity 메서드를 없애야하나..?
 	@SuperBuilder
 	public static class UpdateRequest {
 
@@ -174,7 +197,6 @@ public class UserDto extends AbstractBaseDto {
 	 * @since : 2024. 8. 8
 	 */
 	@Getter
-	@Setter
 	@SuperBuilder
 	public static class UpdateResponse extends UserDto {
 

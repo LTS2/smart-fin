@@ -36,7 +36,7 @@ class JwtTokenProviderTest {
 		String secretKey = "testSecretKey";
 		Long expiration = 3600000L; // 1시간
 
-		jwtTokenProvider = new JwtTokenProvider(secretKey, expiration);
+		jwtTokenProvider = new JwtTokenProvider(secretKey);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class JwtTokenProviderTest {
 		String email = "test@example.com";
 
 		// when: 이메일을 기반으로 JWT 토큰을 생성할 때
-		String token = jwtTokenProvider.generateToken(email);
+		String token = jwtTokenProvider.generateAccessToken(email);
 
 		// then: 토큰이 null 또는 비어 있지 않고, subject로부터 올바른 이메일을 추출할 수 있어야 함
 		assertNotNull(token, "JWT 토큰은 null이 아니어야 합니다.");

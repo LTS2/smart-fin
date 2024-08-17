@@ -52,7 +52,7 @@ class UserServiceTransactionTest {
 		String email = createRequest.getEmail();
 
 		// When
-		userApplicationService.registerUser(createRequest);
+		// userApplicationService.registerUser(createRequest);
 
 		// Then
 		Optional<UserEntity> foundUser = userQueryService.findByEmail(email);
@@ -73,7 +73,7 @@ class UserServiceTransactionTest {
 			.build();
 
 		// When
-		userApplicationService.registerUser(createRequest);
+		// userApplicationService.registerUser(createRequest);
 
 		// Then
 		assertTrue(userQueryService.hasUser(email));

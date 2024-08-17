@@ -1,5 +1,7 @@
 package com.ysmeta.smartfin.domain.auth;
 
+import static jakarta.persistence.FetchType.*;
+
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 
@@ -8,7 +10,6 @@ import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -41,8 +42,8 @@ public class AuthEntity extends AbstractBaseEntity {
 	 * <p>
 	 * 또한, 이 필드는 지연 로딩(FetchType.LAZY)을 사용하여 필요할 때만 연관된 사용자 엔티티를 로드합니다.
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(nullable = false, name = "USER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private UserEntity user;
 
 	/**

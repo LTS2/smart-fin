@@ -1,20 +1,7 @@
 package com.ysmeta.smartfin.domain.user;
 
-import java.security.NoSuchAlgorithmException;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.ysmeta.smartfin.domain.user.service.UserApplicationService;
-import com.ysmeta.smartfin.util.helper.error.ErrorMessageHelper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,44 +23,4 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
 
-	private final UserApplicationService userApplicationService;
-
-	@Autowired
-	public UserController(UserApplicationService userApplicationService) {
-		this.userApplicationService = userApplicationService;
-	}
-
-	/**
-	 * 사용자 회원가입 요청을 처리하는 메서드입니다.
-	 * <p>
-	 * 이 메서드는 @Valid 어노테이션을 통해 들어오는 요청 데이터를 유효성 검사하며,
-	 * 유효성 검사에 실패할 경우 적절한 오류 메시지를 반환합니다.
-	 * 유효성 검사에 통과하면 회원가입 로직을 처리하고, 성공적인 응답을 반환합니다.
-	 *
-	 * @param userCreateRequestDto 유효성 검사를 수행할 사용자 요청 데이터 객체
-	 * @param bindingResult        유효성 검사 결과를 담고 있는 BindingResult 객체
-	 * @return ResponseEntity 객체로 HTTP 상태 코드와 메시지를 포함한 응답을 반환합니다.
-	 */
-	@PostMapping
-	public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto.CreateRequest userCreateRequestDto,
-		BindingResult bindingResult) {
-		// 유효성 검사에서 오류가 있는 경우 400 에러
-		if (bindingResult.hasErrors()) {
-			String errorMessage = ErrorMessageHelper.getOrDefaultErrorMessage(bindingResult);
-			log.info("유효성 검사를 통과하지 못했습니다.: {}", errorMessage);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
-		}
-
-		try {
-			userApplicationService.registerUser(userCreateRequestDto);
-			log.info("사용자 {}가 성공적으로 등록되었습니다.", userCreateRequestDto.getEmail());
-			return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 완료"); // STATUS_CODE: 201
-		} catch (IllegalStateException e) {
-			log.error("알 수 없는 알고리즘 예외 발생: ", e);
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 존재하는 사용자입니다."); // STATUS_CODE: 409
-		} catch (NoSuchAlgorithmException e) {
-			log.error("알 수 없는 알고리즘 예외 발생: ", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다."); // STATUS_CODE: 500
-		}
-	}
 }

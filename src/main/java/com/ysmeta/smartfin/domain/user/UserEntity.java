@@ -38,4 +38,5 @@ public class UserEntity extends AbstractBaseEntity {
 	public static UserEntity fromEmail(String email) {
 		return UserEntity.builder().email(email).build();
 	}
+
 }

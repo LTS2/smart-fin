@@ -46,7 +46,7 @@ public class UserApplicationService {
 	 * @param user 사용자 등록 요청 DTO
 	 */
 	@Transactional
-	public void registerUser(UserDto.CreateRequest user) throws NoSuchAlgorithmException {
+	public void signUp(UserDto.CreateRequest user) throws NoSuchAlgorithmException {
 		// 사용자가 이미 존재하는지 확인
 		if (userQueryService.hasUser(user.getEmail())) {
 			throw new IllegalStateException("이미 존재하는 사용자입니다.");

@@ -36,6 +36,8 @@ CREATE TABLE TOKEN (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '토큰 고유 ID',
     user_id BIGINT NOT NULL COMMENT '사용자 ID (외래키)',
     refresh_token VARCHAR(512) NOT NULL COMMENT 'JWT 리프레시 토큰',
+    expires_at TIMESTAMP NOT NULL,  -- 만료 시간 (expiresAt)
+    revoked TINYINT(1) NOT NULL,  -- 철회 상태 (0: 유효한 토큰, 1: 유효하지 않은 토큰) 유효하지 않은 토큰으로 엑세스 토큰 재발급 불가능하다.
     device_id VARCHAR(255) DEFAULT NULL COMMENT '장치 ID (선택적)',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',

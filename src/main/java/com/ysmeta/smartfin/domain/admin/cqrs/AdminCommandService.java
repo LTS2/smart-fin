@@ -1,6 +1,5 @@
 package com.ysmeta.smartfin.domain.admin.cqrs;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,6 @@ public class AdminCommandService {
 
 	private final AdminRepository adminRepository;
 	private final AdminQueryService adminQueryService;
-	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * UserCommandService 생성자입니다.
@@ -36,10 +34,8 @@ public class AdminCommandService {
 	 * @param passwordEncoder   비밀번호 인코더
 	 * @param adminQueryService 사용자 조회 서비스
 	 */
-	public AdminCommandService(AdminRepository adminRepository, PasswordEncoder passwordEncoder,
-		AdminQueryService adminQueryService) {
+	public AdminCommandService(AdminRepository adminRepository, AdminQueryService adminQueryService) {
 		this.adminRepository = adminRepository;
-		this.passwordEncoder = passwordEncoder;
 		this.adminQueryService = adminQueryService;
 	}
 
