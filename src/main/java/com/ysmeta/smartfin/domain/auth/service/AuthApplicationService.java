@@ -1,8 +1,6 @@
 package com.ysmeta.smartfin.domain.auth.service;
 
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -69,24 +67,6 @@ public class AuthApplicationService {
 			.build();
 
 		authCommandService.signUp(userEntity, passwordEntity);
-	}
-
-	/**
-	 * 랜덤 Salt 값을 생성하는 메서드입니다.
-	 * SecureRandom 클래스를 사용하여 16바이트 길이의 예측할 수 없는 Salt를 생성합니다.
-	 *
-	 * @return Base64로 인코딩된 Salt 문자열
-	 * @throws NoSuchAlgorithmException 암호학적으로 안전한 랜덤 알고리즘이 없을 경우 발생
-	 */
-	public String generateSalt() throws NoSuchAlgorithmException {
-		SecureRandom sr = SecureRandom.getInstanceStrong(); // 암호학적으로 안전한 알고리즘 사용
-
-		// Salt 바이트 배열 생성 (16바이트)
-		byte[] salt = new byte[16];
-		sr.nextBytes(salt); // 랜덤 바이트로 배열 채우기
-
-		// 바이트 배열을 Base64 문자열로 변환하여 반환
-		return Base64.getEncoder().encodeToString(salt);
 	}
 
 }
