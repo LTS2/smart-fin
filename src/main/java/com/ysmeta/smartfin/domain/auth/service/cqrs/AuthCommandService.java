@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
 import com.ysmeta.smartfin.domain.auth.jwt.JwtEntity;
@@ -18,9 +19,12 @@ import com.ysmeta.smartfin.domain.user.UserDto;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * AuthCommandService 클래스는 사용자 인증과 관련된 명령(Command) 작업을 처리하는 서비스입니다.
  */
+@Slf4j
 @Service
 public class AuthCommandService {
 
@@ -31,10 +35,8 @@ public class AuthCommandService {
 	private final UserRepository userRepository;
 
 	@Autowired
-	public AuthCommandService(JwtTokenProvider jwtTokenProvider,
-		AuthenticationManager authenticationManager,
-		JwtRepository jwtRepository, PasswordRepository passwordRepository,
-		UserRepository userRepository) {
+	public AuthCommandService(JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager,
+		JwtRepository jwtRepository, PasswordRepository passwordRepository, UserRepository userRepository) {
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.authenticationManager = authenticationManager;
 		this.jwtRepository = jwtRepository;
@@ -43,8 +45,14 @@ public class AuthCommandService {
 	}
 
 	public Authentication authenticateUser(UserDto.LoginRequest loginRequestDto) {
-		return authenticationManager.authenticate(
+		log.debug("Authenticating user: {}", loginRequestDto.getEmail());
+
+		Authentication authentication = authenticationManager.authenticate(
 			new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
+
+		log.debug("Authentication successful for user: {}", loginRequestDto.getEmail());
+
+		return authentication;
 	}
 
 	public JwtResponse generateJwtTokens(UserEntity userEntity) {
@@ -74,6 +82,7 @@ public class AuthCommandService {
 	 *
 	 * @param user 저장할 사용자 엔티티
 	 */
+	@Transactional
 	public void signUp(UserEntity user, PasswordEntity password) {
 		userRepository.save(user);
 		passwordRepository.save(password);

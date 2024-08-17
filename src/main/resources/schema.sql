@@ -23,7 +23,6 @@ CREATE TABLE PASSWORD (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '비밀번호 고유 ID',
     user_id BIGINT UNIQUE NOT NULL COMMENT '사용자 ID (외래키)',
     hashed_password VARCHAR(255) NOT NULL COMMENT '암호화된 비밀번호 (SHA-256)',
-    salt VARCHAR(255) NULL COMMENT '비밀번호 암호화에 사용된 솔트값',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
     deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',

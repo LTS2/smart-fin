@@ -1,7 +1,5 @@
 package com.ysmeta.smartfin.domain.auth.password;
 
-import java.util.UUID;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +24,7 @@ public class PasswordService {
 	}
 
 	public void savePassword(UserEntity user, String plainPassword) {
-		String salt = generateSalt();
-		String hashedPassword = passwordEncoder.encode(plainPassword + salt);
+		String hashedPassword = passwordEncoder.encode(plainPassword);
 
 		// PasswordEntity passwordEntity = new PasswordEntity();
 		// passwordEntity.setUser(user);
@@ -39,12 +36,8 @@ public class PasswordService {
 
 	public boolean verifyPassword(UserEntity user, String plainPassword) {
 		PasswordEntity passwordEntity = passwordRepository.findByUser(user);
-		String hashedPassword = passwordEncoder.encode(plainPassword + passwordEntity.getSalt());
+		String hashedPassword = passwordEncoder.encode(plainPassword);
 		return hashedPassword.equals(passwordEntity.getHashedPassword());
 	}
 
-	private String generateSalt() {
-		// 솔트 생성 로직
-		return UUID.randomUUID().toString();
-	}
 }

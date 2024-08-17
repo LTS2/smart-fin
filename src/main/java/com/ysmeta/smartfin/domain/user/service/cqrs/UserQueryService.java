@@ -1,7 +1,6 @@
 package com.ysmeta.smartfin.domain.user.service.cqrs;
 
-import java.util.Optional;
-
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +48,17 @@ public class UserQueryService {
 		return userRepository.findByEmail(email).isPresent();
 	}
 
-	public Optional<UserEntity> findByEmail(String email) {
-		return userRepository.findByEmail(email);
+	/**
+	 * 주어진 이메일을 기반으로 사용자를 조회합니다.
+	 * <p>
+	 * 사용자가 존재하지 않으면 UsernameNotFoundException 예외를 던집니다.
+	 *
+	 * @param email 조회할 사용자의 이메일 주소
+	 * @return 주어진 이메일을 가진 UserEntity 객체
+	 * @throws UsernameNotFoundException 사용자가 존재하지 않을 경우 던져지는 예외
+	 */
+	public UserEntity findByEmail(String email) {
+		return userRepository.findByEmail(email)
+			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
 	}
 }

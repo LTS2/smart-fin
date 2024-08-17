@@ -40,16 +40,10 @@ public class PasswordEntity extends AbstractBaseEntity {
 	 */
 	private String hashedPassword;
 
-	/**
-	 * 솔트값
-	 */
-	private String salt;
-
 	// 엔티티를 DTO로 변환하는 메서드
 	public static PasswordDto fromEntity(PasswordEntity passwordEntity) {
 		PasswordDto passwordDto = new PasswordDto();
 		passwordDto.setHashedPassword(passwordEntity.getHashedPassword());
-		passwordDto.setSalt(passwordEntity.getSalt());
 
 		// UserEntity를 UserResponseDto로 변환하여 설정
 		// passwordDto.setUser(UserDto.CreateUserResponseDto.fromEntity(passwordEntity.getUser()));
@@ -61,7 +55,6 @@ public class PasswordEntity extends AbstractBaseEntity {
 		return PasswordEntity.builder()
 			.user(userEntity)
 			.hashedPassword(passwordDto.getHashedPassword())
-			.salt(passwordDto.getSalt())
 			.build();
 	}
 }

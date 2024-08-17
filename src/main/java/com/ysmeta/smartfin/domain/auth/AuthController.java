@@ -32,6 +32,7 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@Valid @RequestBody UserDto.CreateRequest userCreateRequestDto,
 		BindingResult bindingResult) {
+
 		if (bindingResult.hasErrors()) {
 			String errorMessage = ErrorMessageHelper.getOrDefaultErrorMessage(bindingResult);
 			return ResponseEntity.badRequest().body(errorMessage);
@@ -68,4 +69,31 @@ public class AuthController {
 			return ResponseEntity.status(401).body(errorResponse);
 		}
 	}
+
+	// @PostMapping("/login")
+	// public ResponseEntity<JwtResponse> login(@Valid @RequestBody UserDto.LoginRequest loginRequestDto) {
+	// 	try {
+	// 		// 로그인 서비스 호출
+	// 		JwtResponse jwtResponse = authApplicationService.login(loginRequestDto);
+	// 		return ResponseEntity.ok(jwtResponse);
+	// 	} catch (UserNotFoundException e) {
+	// 		log.error("로그인 중 오류 발생 - 사용자 찾을 수 없음: ", e);
+	// 		JwtResponse errorResponse = JwtResponse.builder()
+	// 			.errorMessage("로그인 실패: 사용자 정보를 찾을 수 없습니다.")
+	// 			.build();
+	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+	// 	} catch (InvalidPasswordException e) {
+	// 		log.error("로그인 중 오류 발생 - 비밀번호 불일치: ", e);
+	// 		JwtResponse errorResponse = JwtResponse.builder()
+	// 			.errorMessage("로그인 실패: 비밀번호가 일치하지 않습니다.")
+	// 			.build();
+	// 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+	// 	} catch (Exception e) {
+	// 		log.error("로그인 중 예상치 못한 오류 발생: ", e);
+	// 		JwtResponse errorResponse = JwtResponse.builder()
+	// 			.errorMessage("로그인 실패: 서버 오류가 발생했습니다.")
+	// 			.build();
+	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	// 	}
+	// }
 }
