@@ -45,6 +45,7 @@ public class AuthApplicationService {
 		this.authenticationManager = authenticationManager;
 	}
 
+	@Transactional
 	public JwtTokenResponse login(UserDto.LoginRequest loginRequestDto) {
 		// 사용자 인증 및 SecurityContext에 설정
 		Authentication authentication = authCommandService.authenticateUser(loginRequestDto, authenticationManager);
