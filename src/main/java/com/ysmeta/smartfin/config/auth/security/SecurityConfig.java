@@ -20,10 +20,12 @@ import com.ysmeta.smartfin.config.auth.jwt.filter.JwtRequestFilter;
 public class SecurityConfig {
 
 	private final JwtRequestFilter jwtRequestFilter;
+	// private final UserDetailsService userDetailsService;
 
 	@Autowired
 	public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
 		this.jwtRequestFilter = jwtRequestFilter;
+		// this.userDetailsService = userDetailsService;
 	}
 
 	@Bean
@@ -36,6 +38,7 @@ public class SecurityConfig {
 					.anyRequest().permitAll()
 				// .anyRequest().authenticated()
 			)
+			// .userDetailsService(userDetailsService)
 
 			.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

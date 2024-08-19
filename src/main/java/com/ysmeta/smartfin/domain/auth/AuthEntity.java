@@ -29,8 +29,8 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder
-@Entity(name = "AUTH")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name = "AUTH")
 public class AuthEntity extends AbstractBaseEntity {
 
 	/**

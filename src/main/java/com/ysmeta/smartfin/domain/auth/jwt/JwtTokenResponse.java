@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder
-public class JwtResponse extends AbstractBaseDto {
+public class JwtTokenResponse extends AbstractBaseDto {
 	private String accessToken;
 	private String refreshToken;
 	private String errorMessage;

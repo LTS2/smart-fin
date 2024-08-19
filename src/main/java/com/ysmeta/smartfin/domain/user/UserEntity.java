@@ -35,6 +35,9 @@ public class UserEntity extends AbstractBaseEntity {
 
 	String companyName;
 
+	// @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	// private PasswordEntity passwordEntity;
+
 	public static UserEntity fromEmail(String email) {
 		return UserEntity.builder().email(email).build();
 	}

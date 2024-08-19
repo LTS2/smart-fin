@@ -3,13 +3,15 @@ package com.ysmeta.smartfin.domain.auth.service;
 import java.security.NoSuchAlgorithmException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.auth.jwt.JwtResponse;
+import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenApplicationService;
+import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenResponse;
 import com.ysmeta.smartfin.domain.auth.password.PasswordEntity;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthCommandService;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthQueryService;
@@ -27,27 +29,31 @@ public class AuthApplicationService {
 	private final AuthCommandService authCommandService;
 	private final AuthQueryService authQueryService;
 	private final UserQueryService userQueryService;
+	private final JwtTokenApplicationService jwtTokenApplicationService;
 	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authenticationManager;
 
 	@Autowired
 	public AuthApplicationService(AuthCommandService authCommandService, AuthQueryService authQueryService,
-		UserQueryService userQueryService, PasswordEncoder passwordEncoder) {
+		UserQueryService userQueryService, JwtTokenApplicationService jwtTokenApplicationService,
+		PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
 		this.authCommandService = authCommandService;
 		this.authQueryService = authQueryService;
 		this.userQueryService = userQueryService;
+		this.jwtTokenApplicationService = jwtTokenApplicationService;
 		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
 	}
 
-	public JwtResponse login(UserDto.LoginRequest loginRequestDto) {
+	public JwtTokenResponse login(UserDto.LoginRequest loginRequestDto) {
 		// 사용자 인증 및 SecurityContext에 설정
-		Authentication authentication = authCommandService.authenticateUser(loginRequestDto);
+		Authentication authentication = authCommandService.authenticateUser(loginRequestDto, authenticationManager);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// 사용자의 정보를 조회
 		UserEntity userEntity = userQueryService.findByEmail(loginRequestDto.getEmail());
-
 		// JWT 토큰 생성 및 반환
-		return authCommandService.generateJwtTokens(userEntity);
+		return jwtTokenApplicationService.generateJwtTokens(userEntity);
 	}
 
 	@Transactional
@@ -68,5 +74,4 @@ public class AuthApplicationService {
 
 		authCommandService.signUp(userEntity, passwordEntity);
 	}
-
 }

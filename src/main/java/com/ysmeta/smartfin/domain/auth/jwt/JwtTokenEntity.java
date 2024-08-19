@@ -28,8 +28,8 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class JwtEntity extends AbstractBaseEntity {
+@Entity(name = "TOKEN")
+public class JwtTokenEntity extends AbstractBaseEntity {
 
 	/**
 	 * 리프레시 토큰을 저장하는 필드입니다.
