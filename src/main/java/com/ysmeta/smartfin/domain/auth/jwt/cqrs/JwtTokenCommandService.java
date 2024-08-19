@@ -49,6 +49,7 @@ public class JwtTokenCommandService {
 
 		// 기존 리프레시 토큰 조회
 		Optional<JwtTokenEntity> existingTokenOpt = jwtTokenRepository.findByUserAndRevokedFalse(userEntity);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userEntity.getEmail());
 
 		if (existingTokenOpt.isPresent()) {
 			JwtTokenEntity existingToken = existingTokenOpt.get();
@@ -58,7 +59,6 @@ public class JwtTokenCommandService {
 				jwtTokenRepository.delete(existingToken);
 
 				// 새로운 리프레시 토큰 생성
-				String refreshToken = jwtTokenProvider.generateRefreshToken(userEntity.getEmail());
 				JwtTokenEntity newToken = getJwtTokenEntity(userEntity, refreshToken);
 
 				jwtTokenRepository.save(newToken);
@@ -71,7 +71,6 @@ public class JwtTokenCommandService {
 			}
 		} else {
 			// 리프레시 토큰이 없는 경우 (최초 로그인 등)
-			String refreshToken = jwtTokenProvider.generateRefreshToken(userEntity.getEmail());
 			JwtTokenEntity newToken = getJwtTokenEntity(userEntity, refreshToken);
 
 			jwtTokenRepository.save(newToken);
