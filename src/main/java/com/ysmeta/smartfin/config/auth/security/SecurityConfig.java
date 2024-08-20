@@ -1,6 +1,5 @@
 package com.ysmeta.smartfin.config.auth.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,28 +12,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
-import com.ysmeta.smartfin.config.auth.jwt.filter.JwtAuthenticationFilter;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	// 순환 의존성 문제 때문에 우선 메서드 매개변수 주입으로 함
-	// private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	// private final UserDetailsService userDetailsService;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	// @Autowired
-	// public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
-	// 	this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-	// this.userDetailsService = userDetailsService;
-	// }
-
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws
+	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws
 		Exception {
+
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(authorize -> authorize
@@ -60,7 +45,6 @@ public class SecurityConfig {
 				.maxSessionsPreventsLogin(false) // false: 중복 로그인 하면 이전 로그인이 풀림
 			);
 
-		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
@@ -76,12 +60,6 @@ public class SecurityConfig {
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws
 		Exception {
 		return authenticationConfiguration.getAuthenticationManager();
-	}
-
-	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager,
-		JwtTokenProvider jwtTokenProvider) {
-		return new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider);
 	}
 
 }

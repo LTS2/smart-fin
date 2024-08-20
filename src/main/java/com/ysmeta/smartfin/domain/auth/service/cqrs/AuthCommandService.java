@@ -7,8 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.auth.password.PasswordEntity;
-import com.ysmeta.smartfin.domain.auth.password.PasswordRepository;
+import com.ysmeta.smartfin.domain.password.PasswordEntity;
+import com.ysmeta.smartfin.domain.password.PasswordRepository;
 import com.ysmeta.smartfin.domain.user.UserDto;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;

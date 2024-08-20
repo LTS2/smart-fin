@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,12 +27,14 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2024. 8. 20.
  */
 @Slf4j
+@Component
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
 
 	public LoginFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+		setAuthenticationManager(authenticationManager);
 	}
 
 	@Override
@@ -39,9 +42,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		AuthenticationException {
 		String username = obtainUsername(request);
 		String password = obtainPassword(request);
-
-		log.info(username);
-		log.info(password);
+		log.info("유저 이름: {}", username);
+		log.info("유저 비밀번호: {}", password);
 
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
 		return authenticationManager.authenticate(authToken);

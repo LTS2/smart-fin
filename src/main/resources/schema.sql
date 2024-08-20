@@ -4,6 +4,9 @@ DROP TABLE IF EXISTS USER;
 DROP TABLE IF EXISTS LOAN_BROKER;
 DROP TABLE IF EXISTS TOKEN;
 DROP TABLE IF EXISTS AUTH;
+DROP TABLE IF EXISTS ROLE;
+DROP TABLE IF EXISTS USER_ROLE;
+DROP TABLE IF EXISTS ROLE_TYPE;
 
 -- 테이블 생성
 CREATE TABLE USER (
@@ -14,9 +17,45 @@ CREATE TABLE USER (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
     deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
-    created_by VARCHAR(255) NULL COMMENT '생성한 사람',
-    updated_by VARCHAR(255) NULL COMMENT '수정한 사람',
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람',
     UNIQUE (email)
+);
+
+CREATE TABLE USER_ROLE (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '권한 ID',
+    user_id BIGINT NOT NULL COMMENT '사용자 ID (외래키)',
+    role_id BIGINT NOT NULL COMMENT '역할 ID (외래키)',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
+    deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람'
+--     FOREIGN KEY (user_id) REFERENCES USER(id),
+--     FOREIGN KEY (role_id) REFERENCES ROLE(id)
+);
+
+CREATE TABLE ROLE (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '역할 ID',
+    code VARCHAR(30) NOT NULL COMMENT '역할 코드',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
+    deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람'
+--     FOREIGN KEY (code) REFERENCES ROLE_TYPE(code) ON DELETE NO ACTION ON UPDATE NO ACTION,
+--     FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE ROLE_TYPE (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '역할 타입 ID',
+    code VARCHAR(30) NOT NULL UNIQUE COMMENT '역할 코드 (고유값)',
+    name VARCHAR(30) NOT NULL COMMENT '역할명',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
+    deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람'
 );
 
 CREATE TABLE PASSWORD (
@@ -26,8 +65,8 @@ CREATE TABLE PASSWORD (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
     deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
-    created_by VARCHAR(255) NULL COMMENT '생성한 사람',
-    updated_by VARCHAR(255) NULL COMMENT '수정한 사람'
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람'
     -- FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
@@ -41,22 +80,25 @@ CREATE TABLE TOKEN (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정 일시',
     deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
-    created_by VARCHAR(255) NULL COMMENT '생성한 사람',
-    updated_by VARCHAR(255) NULL COMMENT '수정한 사람'
+    created_by VARCHAR(100) NULL COMMENT '생성한 사람',
+    updated_by VARCHAR(100) NULL COMMENT '수정한 사람'
     -- FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-CREATE TABLE AUTH (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '권한 고유 ID',
-    user_id BIGINT NOT NULL DEFAULT 0 COMMENT '사용자 ID (외래키)',
-    is_admin TINYINT(1) NOT NULL DEFAULT 0 COMMENT '관리자 권한 (0: 아니오, 1: 예)',
-    is_manager TINYINT(1) NOT NULL DEFAULT 0 COMMENT '매니저 권한 (0: 아니오, 1: 예)',
-    is_user TINYINT(1) NOT NULL DEFAULT 0 COMMENT '일반 사용자 권한 (0: 아니오, 1: 예)',
-    approval_status VARCHAR(10) DEFAULT 'WAIT' NOT NULL COMMENT '회원가입 승인 상태 (WAIT: 대기중, APPROVED: 승인됨, REJECTED: 거부됨)',
-    created_at TIMESTAMP NOT NULL COMMENT '생성 일시',
-    updated_at TIMESTAMP NOT NULL COMMENT '수정 일시',
-    deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
-    created_by VARCHAR(255) NULL COMMENT '생성한 사람',
-    updated_by VARCHAR(255) NULL COMMENT '수정한 사람'
-    -- CONSTRAINT fk_auth_user FOREIGN KEY (user_id) REFERENCES USER(id)
-);
+
+
+
+-- CREATE TABLE AUTH (
+--     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '권한 고유 ID',
+--     user_id BIGINT NOT NULL DEFAULT 0 COMMENT '사용자 ID (외래키)',
+--     is_admin TINYINT(1) NOT NULL DEFAULT 0 COMMENT '관리자 권한 (0: 아니오, 1: 예)',
+--     is_manager TINYINT(1) NOT NULL DEFAULT 0 COMMENT '매니저 권한 (0: 아니오, 1: 예)',
+--     is_user TINYINT(1) NOT NULL DEFAULT 0 COMMENT '일반 사용자 권한 (0: 아니오, 1: 예)',
+--     approval_status VARCHAR(10) DEFAULT 'WAIT' NOT NULL COMMENT '회원가입 승인 상태 (WAIT: 대기중, APPROVED: 승인됨, REJECTED: 거부됨)',
+--     created_at TIMESTAMP NOT NULL COMMENT '생성 일시',
+--     updated_at TIMESTAMP NOT NULL COMMENT '수정 일시',
+--     deleted_at TIMESTAMP NULL COMMENT '삭제 일시 (논리 삭제 시 사용)',
+--     created_by VARCHAR(255) NULL COMMENT '생성한 사람',
+--     updated_by VARCHAR(255) NULL COMMENT '수정한 사람'
+--     -- CONSTRAINT fk_auth_user FOREIGN KEY (user_id) REFERENCES USER(id)
+-- );

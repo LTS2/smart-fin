@@ -79,7 +79,6 @@ public class JwtTokenProvider {
 	 * @return 생성된 JWT 토큰입니다.
 	 */
 	private String generateToken(UserDetails userDetails, long expireTime) {
-
 		String authorities = userDetails.getAuthorities().stream()
 			.map(GrantedAuthority::getAuthority)
 			.collect(Collectors.joining(","));

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ysmeta.smartfin.domain.auth.LoginResponse;
-import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenApplicationService;
-import com.ysmeta.smartfin.domain.auth.password.PasswordEntity;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthCommandService;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthQueryService;
+import com.ysmeta.smartfin.domain.jwt.JwtTokenApplicationService;
+import com.ysmeta.smartfin.domain.password.PasswordEntity;
 import com.ysmeta.smartfin.domain.user.UserDto;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.service.cqrs.UserQueryService;

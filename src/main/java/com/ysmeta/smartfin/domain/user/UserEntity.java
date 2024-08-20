@@ -1,9 +1,17 @@
 package com.ysmeta.smartfin.domain.user;
 
+import static jakarta.persistence.FetchType.*;
+
+import java.util.List;
+
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
+import com.ysmeta.smartfin.domain.password.PasswordEntity;
+import com.ysmeta.smartfin.domain.role.entity.UserRoleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +33,7 @@ public class UserEntity extends AbstractBaseEntity {
 	/**
 	 * 이름
 	 */
+	@Column(nullable = false)
 	String name;
 
 	/**
@@ -33,10 +42,14 @@ public class UserEntity extends AbstractBaseEntity {
 	@Column(unique = true, nullable = false)
 	String email;
 
-	String companyName;
+	@Column(nullable = false)
+	private String companyName;
 
-	// @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-	// private PasswordEntity passwordEntity;
+	@OneToOne(mappedBy = "user", fetch = LAZY)
+	private PasswordEntity passwordEntity;
+
+	@OneToMany(mappedBy = "user", fetch = LAZY)
+	private List<UserRoleEntity> userRoles;
 
 	public static UserEntity fromEmail(String email) {
 		return UserEntity.builder().email(email).build();
