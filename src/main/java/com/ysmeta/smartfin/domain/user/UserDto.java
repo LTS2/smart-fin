@@ -39,7 +39,7 @@ public class UserDto extends AbstractBaseDto {
 	@Getter
 	@NoArgsConstructor
 	@SuperBuilder
-	public static class CreateRequest extends UserDto {
+	public static class CreateRequest {
 
 		@NotBlank(message = "이름은 필수 입력값입니다.")
 		private String name;
@@ -98,30 +98,28 @@ public class UserDto extends AbstractBaseDto {
 	}
 
 	/**
-	 * 사용자 응답 DTO 클래스입니다.
+	 * 로그인 응답 DTO 클래스입니다.
 	 * <p>
-	 * 이 클래스는 사용자 응답에 필요한 필드를 포함합니다.
+	 * 이 클래스는 로그인 시 사용자가 입력한 이메일과 비밀번호를 포함합니다.
 	 *
-	 * @author ewjin
+	 * @author : ewjin
 	 * @version : 0.0.1
-	 * @since : 2024. 8. 8
+	 * @since : 2024. 8. 19.
 	 */
-	// @Getter
-	// @Setter
-	// @SuperBuilder
-	// public static class CreateUserResponseDto extends UserDto {
-	//
-	// 	// 엔티티에서 변환하는 메서드
-	// 	public static CreateUserResponseDto fromEntity(UserEntity userEntity) {
-	// 		return CreateUserResponseDto.SuperBuilder()
-	// 			.name(userEntity.getName())
-	// 			.email(userEntity.getEmail())
-	// 			.rrn(userEntity.getRrn())
-	// 			.phoneNumber(userEntity.getPhoneNumber())
-	// 			.address(userEntity.getAddress())
-	// 			.build();
-	// 	}
-	// }
+	@Getter
+	@NoArgsConstructor
+	@SuperBuilder
+	public static class LoginResponse extends UserDto {
+
+		private String 뭐넣어야되지;
+
+		// 엔티티를 DTO로 변환하는 메서드
+		public UserEntity toEntity() {
+			return UserEntity.builder()
+				.email(super.email)
+				.build();
+		}
+	}
 
 	/**
 	 * 사용자 삭제 요청 DTO 클래스입니다.

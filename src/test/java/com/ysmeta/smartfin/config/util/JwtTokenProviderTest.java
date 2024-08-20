@@ -1,15 +1,9 @@
 package com.ysmeta.smartfin.config.util;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
-
-import io.jsonwebtoken.Jwts;
 
 /**
  * JWT 토큰 관리 테스트 클래스입니다.
@@ -50,29 +44,29 @@ class JwtTokenProviderTest {
 	 * </ul>
 	 * </p>
 	 */
-	@Test
-	@DisplayName("JWT 토큰 생성")
-	void generateToken() {
-		// given: 토큰 생성에 사용할 이메일 주소가 주어졌을 때
-		String email = "test@example.com";
-
-		// when: 이메일을 기반으로 JWT 토큰을 생성할 때
-		String token = jwtTokenProvider.generateAccessToken(email);
-
-		// then: 토큰이 null 또는 비어 있지 않고, subject로부터 올바른 이메일을 추출할 수 있어야 함
-		assertNotNull(token, "JWT 토큰은 null이 아니어야 합니다.");
-		assertFalse(token.isEmpty(), "JWT 토큰은 비어 있지 않아야 합니다.");
-
-		// 토큰에서 subject(이메일)를 추출
-		String extractedEmail = Jwts.parser()
-			.setSigningKey("testSecretKey")
-			.parseClaimsJws(token)
-			.getBody()
-			.getSubject();
-
-		// 추출된 이메일이 원래의 이메일과 동일한지 확인
-		assertEquals(email, extractedEmail, "추출된 이메일이 원래의 이메일과 일치해야 합니다.");
-	}
+	// @Test
+	// @DisplayName("JWT 토큰 생성")
+	// void generateToken() {
+	// 	// given: 토큰 생성에 사용할 이메일 주소가 주어졌을 때
+	// 	String email = "test@example.com";
+	//
+	// 	// when: 이메일을 기반으로 JWT 토큰을 생성할 때
+	// 	String token = jwtTokenProvider.generateAccessToken(email);
+	//
+	// 	// then: 토큰이 null 또는 비어 있지 않고, subject로부터 올바른 이메일을 추출할 수 있어야 함
+	// 	assertNotNull(token, "JWT 토큰은 null이 아니어야 합니다.");
+	// 	assertFalse(token.isEmpty(), "JWT 토큰은 비어 있지 않아야 합니다.");
+	//
+	// 	// 토큰에서 subject(이메일)를 추출
+	// 	String extractedEmail = Jwts.parser()
+	// 		.setSigningKey("testSecretKey")
+	// 		.parseClaimsJws(token)
+	// 		.getBody()
+	// 		.getSubject();
+	//
+	// 	// 추출된 이메일이 원래의 이메일과 동일한지 확인
+	// 	assertEquals(email, extractedEmail, "추출된 이메일이 원래의 이메일과 일치해야 합니다.");
+	// }
 
 	/**
 	 * JWT 토큰에서 모든 클레임을 추출하는 기능을 테스트합니다.

@@ -3,13 +3,14 @@ package com.ysmeta.smartfin.domain.auth.jwt.cqrs;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
+import com.ysmeta.smartfin.domain.auth.LoginResponse;
 import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenEntity;
 import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenRepository;
-import com.ysmeta.smartfin.domain.auth.jwt.JwtTokenResponse;
 import com.ysmeta.smartfin.domain.user.UserEntity;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,49 +42,52 @@ public class JwtTokenCommandService {
 	 * @param userEntity   사용자 엔티티.
 	 * @param refreshToken 생성할 리프레시 토큰.
 	 */
-	private void saveNewRefreshToken(UserEntity userEntity, String refreshToken) {
+	private void saveNewRefreshToken(UserDetails userDetails, String refreshToken) {
 		JwtTokenEntity newToken = JwtTokenEntity.builder()
 			.refreshToken(refreshToken)
 			.expiresAt(LocalDateTime.now().plusDays(7))
 			.revoked(false)
-			.user(userEntity)
+			.user(UserEntity.fromEmail(userDetails.getUsername()))
 			.build();
 
 		jwtTokenRepository.save(newToken);
 	}
 
 	/**
+	 * <pre>
+	 * TODO: 람다식으로 바꾸기.
 	 * 주어진 사용자 엔티티에 대한 새로운 Access Token과 Refresh Token을 생성합니다.
-	 * <p>
+	 *
 	 * 리프레시 토큰이 만료되었거나 없는 경우, 새로운 리프레시 토큰을 생성하고 저장합니다.
 	 * 기존 리프레시 토큰이 유효한 경우, 새로 생성된 Access Token과 기존 리프레시 토큰을 반환합니다.
+	 * </pre>
 	 *
 	 * @param userEntity       JWT 토큰을 생성할 사용자 엔티티.
 	 * @param existingTokenOpt 기존의 리프레시 토큰 엔티티.
 	 * @return 생성된 JWT 토큰 응답 객체(JwtTokenResponse).
 	 */
 	@Transactional
-	public JwtTokenResponse createOrUpdateTokens(UserEntity userEntity, Optional<JwtTokenEntity> existingTokenOpt) {
+	public LoginResponse createOrUpdateTokens(UserDetails userDetails, Optional<JwtTokenEntity> existingTokenOpt) {
 		// 새로운 Access Token 생성
-		String accessToken = jwtTokenProvider.generateAccessToken(userEntity.getEmail());
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userEntity.getEmail());
+		String accessToken = jwtTokenProvider.generateAccessToken(userDetails);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(userDetails);
 
 		if (existingTokenOpt.isPresent()) {
 			JwtTokenEntity existingToken = existingTokenOpt.get();
 			if (existingToken.getExpiresAt().isBefore(LocalDateTime.now())) {
 				// 만료된 토큰을 삭제하고 새로 생성
 				jwtTokenRepository.delete(existingToken);
-				saveNewRefreshToken(userEntity, refreshToken);
+				saveNewRefreshToken(userDetails, refreshToken);
 			} else {
 				// 기존 리프레시 토큰이 유효한 경우
 				refreshToken = existingToken.getRefreshToken();
 			}
 		} else {
 			// 기존 리프레시 토큰이 없으면 새로 생성
-			saveNewRefreshToken(userEntity, refreshToken);
+			saveNewRefreshToken(userDetails, refreshToken);
 		}
 
-		return JwtTokenResponse.builder()
+		return LoginResponse.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
 			.build();

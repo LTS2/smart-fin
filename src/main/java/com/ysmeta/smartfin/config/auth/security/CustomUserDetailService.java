@@ -37,14 +37,6 @@ public class CustomUserDetailService implements UserDetailsService {
 		this.passwordRepository = passwordRepository;
 	}
 
-	// @Override
-	// public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	// 	UserEntity user = userQueryService.findByEmail(username)
-	// 	// .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
-	// 	// return new org.springframework.security.core.userdetails.User(user.getEmail(),
-	// 	// 	user.getPasswordEntity().getHashedPassword(), new ArrayList<>());
-	// }
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserEntity user = userQueryService.findByEmail(username);
@@ -54,6 +46,19 @@ public class CustomUserDetailService implements UserDetailsService {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+		// return new CustomUserDetails(user.getEmail(), passwordEntity.getHashedPassword(), authorities);
 		return new User(user.getEmail(), passwordEntity.getHashedPassword(), authorities);
 	}
+
+	// @Override
+	// public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	// 	UserEntity user = userQueryService.findByEmail(username);
+	// 	PasswordEntity passwordEntity = passwordRepository.findByUser(user);
+	//
+	// 	// 사용자 권한 설정
+	// 	List<GrantedAuthority> authorities = new ArrayList<>();
+	// 	authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+	//
+	// 	return new User(user.getEmail(), passwordEntity.getHashedPassword(), authorities);
+	// }
 }

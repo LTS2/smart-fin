@@ -1,6 +1,7 @@
-package com.ysmeta.smartfin.domain.auth.jwt;
+package com.ysmeta.smartfin.domain.auth;
 
 import com.ysmeta.smartfin.common.AbstractBaseDto;
+import com.ysmeta.smartfin.domain.user.UserDto;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -14,8 +15,9 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder
-public class JwtTokenResponse extends AbstractBaseDto {
+public class LoginResponse extends AbstractBaseDto {
 	private String accessToken;
 	private String refreshToken;
+	private UserDto user;
 	private String errorMessage;
 }

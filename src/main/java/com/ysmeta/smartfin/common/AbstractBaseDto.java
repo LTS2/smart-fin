@@ -1,7 +1,5 @@
 package com.ysmeta.smartfin.common;
 
-import java.time.LocalDateTime;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,28 +21,28 @@ public abstract class AbstractBaseDto {
 
 	private Long id;
 
-	/**
-	 * 생성 날짜
-	 */
-	private LocalDateTime createdAt;
-
-	/**
-	 * 수정 날짜
-	 */
-	private LocalDateTime updatedAt;
-
-	/**
-	 * 삭제 날짜
-	 */
-	private LocalDateTime deletedAt;
-
-	/**
-	 * 생성한 사람
-	 */
-	private String createdBy;
-
-	/**
-	 * 수정한 사람
-	 */
-	private String updatedBy;
+	// /**
+	//  * 생성 날짜
+	//  */
+	// private LocalDateTime createdAt;
+	//
+	// /**
+	//  * 수정 날짜
+	//  */
+	// private LocalDateTime updatedAt;
+	//
+	// /**
+	//  * 삭제 날짜
+	//  */
+	// private LocalDateTime deletedAt;
+	//
+	// /**
+	//  * 생성한 사람
+	//  */
+	// private String createdBy;
+	//
+	// /**
+	//  * 수정한 사람
+	//  */
+	// private String updatedBy;
 }

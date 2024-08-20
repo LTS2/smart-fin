@@ -1,14 +1,19 @@
 package com.ysmeta.smartfin.config.auth.jwt;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,14 +37,28 @@ public class JwtTokenProvider {
 		this.secretKey = secretKey;
 	}
 
+	public String resolveToken(HttpServletRequest request) {
+
+		return Optional.ofNullable(request.getHeader("Authorization"))
+			.filter(bearerToken -> bearerToken.startsWith("Bearer"))
+			.map(bearerToken -> bearerToken.substring(7))
+			.orElse(null);
+
+		// String bearerToken = request.getHeader("Authorization");
+		// if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+		// 	return bearerToken.substring(7);
+		// }
+		// return null;
+	}
+
 	/**
 	 * 사용자의 이메일을 기반으로 JWT 엑세스 토큰을 생성합니다.
 	 *
 	 * @param email JWT에 포함될 사용자의 이메일입니다.
 	 * @return 생성된 JWT 엑세스 토큰입니다.
 	 */
-	public String generateAccessToken(String email) {
-		return generateToken(email, ACCESS_TOKEN_EXPIRE_TIME);
+	public String generateAccessToken(UserDetails userDetails) {
+		return generateToken(userDetails, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 
 	/**
@@ -48,8 +67,8 @@ public class JwtTokenProvider {
 	 * @param email JWT에 포함될 사용자의 이메일입니다.
 	 * @return 생성된 JWT 리프레시 토큰입니다.
 	 */
-	public String generateRefreshToken(String email) {
-		return generateToken(email, REFRESH_TOKEN_EXPIRE_TIME);
+	public String generateRefreshToken(UserDetails userDetails) {
+		return generateToken(userDetails, REFRESH_TOKEN_EXPIRE_TIME);
 	}
 
 	/**
@@ -59,9 +78,15 @@ public class JwtTokenProvider {
 	 * @param expireTime 토큰의 유효 기간입니다.
 	 * @return 생성된 JWT 토큰입니다.
 	 */
-	private String generateToken(String email, long expireTime) {
+	private String generateToken(UserDetails userDetails, long expireTime) {
+
+		String authorities = userDetails.getAuthorities().stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.joining(","));
+
 		return Jwts.builder()
-			.setSubject(email)
+			.setSubject(userDetails.getUsername())
+			.claim("roles", authorities)
 			.setIssuedAt(new Date())
 			.setExpiration(new Date(System.currentTimeMillis() + expireTime))
 			.signWith(SignatureAlgorithm.HS256, secretKey)

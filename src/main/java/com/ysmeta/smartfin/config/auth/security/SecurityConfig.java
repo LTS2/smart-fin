@@ -13,31 +13,45 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ysmeta.smartfin.config.auth.jwt.filter.JwtRequestFilter;
+import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
+import com.ysmeta.smartfin.config.auth.jwt.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	private final JwtRequestFilter jwtRequestFilter;
+	// 순환 의존성 문제 때문에 우선 메서드 매개변수 주입으로 함
+	// private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	// private final UserDetailsService userDetailsService;
-
 	@Autowired
-	public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
-		this.jwtRequestFilter = jwtRequestFilter;
-		// this.userDetailsService = userDetailsService;
-	}
+	private AuthenticationManager authenticationManager;
+
+	// @Autowired
+	// public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+	// 	this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	// this.userDetailsService = userDetailsService;
+	// }
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws
+		Exception {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(authorize -> authorize
-					.requestMatchers("/api/auth/**").permitAll()
-					// .requestMatchers("/api/auth/**").hasRole("ADMIN")
-					.anyRequest().permitAll()
-				// .anyRequest().authenticated()
+				.requestMatchers("/", "/api/auth/login", "/api/auth/signup", "/api/auth/check-email", "/notice",
+					"/support")
+				.permitAll()
+				.requestMatchers("/mypage", "/customer-list", "usage").hasRole("USER")
+				.requestMatchers("/admin").hasRole("ADMIN")
+				.requestMatchers("/real-estate-search").hasRole("SEARCH_REAL_ESTATE") // 부동산 조회
+				.requestMatchers("/car-search").hasAuthority("SEARCH_CAR") // 자동차 조회
+				.requestMatchers("/personal-recovery-search").hasAuthority("SEARCH_PERSONAL_RECOVERY") // 개인 회생 조회
+				.anyRequest().authenticated()
 			)
+			.formLogin(login -> login
+				.usernameParameter("email")
+				.passwordParameter("password"))
+			.addFilterAt(new LoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
 			// .userDetailsService(userDetailsService)
 
 			.sessionManagement(session -> session
@@ -46,7 +60,7 @@ public class SecurityConfig {
 				.maxSessionsPreventsLogin(false) // false: 중복 로그인 하면 이전 로그인이 풀림
 			);
 
-		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
@@ -64,8 +78,10 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-	// @Bean
-	// public PasswordEncoder passwordEncoder() {
-	// 	return new BCryptPasswordEncoder();
-	// }
+	@Bean
+	public JwtAuthenticationFilter jwtAuthenticationFilter(AuthenticationManager authenticationManager,
+		JwtTokenProvider jwtTokenProvider) {
+		return new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider);
+	}
+
 }
