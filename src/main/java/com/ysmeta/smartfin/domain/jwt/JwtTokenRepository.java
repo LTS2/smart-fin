@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 /**
  * TokenRepository 인터페이스는 TokenEntity를 관리하기 위한 JPA 리포지토리입니다.

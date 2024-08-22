@@ -8,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 @SpringBootTest
 class AdminEntityTest {

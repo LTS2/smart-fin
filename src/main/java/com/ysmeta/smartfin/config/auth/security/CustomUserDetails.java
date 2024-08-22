@@ -1,14 +1,12 @@
-package com.ysmeta.smartfin.config.auth.security.dto;
+package com.ysmeta.smartfin.config.auth.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ysmeta.smartfin.domain.role.entity.UserRoleEntity;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 /**
  * 클래스입니다.
@@ -27,15 +25,15 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		List<UserRoleEntity> userRoles = userEntity.getUserRoles();
-		userEntity.getUserRoles().forEach(userRole -> {
-			authorities.add(new GrantedAuthority() {
-				@Override
-				public String getAuthority() {
-					return userRole.getRole().getRoleType().getCode();
-				}
-			});
-		});
+		// List<UserRoleEntity> userRoles = userEntity.getUserRoles();
+		// userEntity.getUserRoles().forEach(userRole -> {
+		// 	authorities.add(new GrantedAuthority() {
+		// 		@Override
+		// 		public String getAuthority() {
+		// 			return userRole.getRole().getRoleType().getCode();
+		// 		}
+		// 	});
+		// });
 
 		return authorities;
 	}

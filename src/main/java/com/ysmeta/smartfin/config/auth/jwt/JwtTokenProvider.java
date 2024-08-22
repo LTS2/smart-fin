@@ -1,6 +1,8 @@
 package com.ysmeta.smartfin.config.auth.jwt;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -136,12 +138,23 @@ public class JwtTokenProvider {
 	}
 
 	/**
+	 * JWT 토큰에서 유저의 역할을 추출합니다.
+	 *
+	 * @param token JWT 토큰입니다.
+	 * @return 토큰에 포함된 유저의 역할 리스트입니다.
+	 */
+	public List<String> extractRoles(String token) {
+		Claims claims = extractAllClaims(token);
+		return Arrays.asList(claims.get("roles", String.class).split(","));
+	}
+
+	/**
 	 * JWT 토큰이 만료되었는지 확인합니다.
 	 *
 	 * @param token JWT 토큰입니다.
 	 * @return 토큰이 만료되었으면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	private Boolean isTokenExpired(String token) {
+	public Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
 

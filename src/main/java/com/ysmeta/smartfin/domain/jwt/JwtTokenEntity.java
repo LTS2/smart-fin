@@ -5,7 +5,7 @@ import static jakarta.persistence.FetchType.*;
 import java.time.LocalDateTime;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;

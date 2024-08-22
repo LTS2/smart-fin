@@ -1,6 +1,7 @@
-package com.ysmeta.smartfin.domain.user;
+package com.ysmeta.smartfin.domain.user.dto;
 
 import com.ysmeta.smartfin.common.AbstractBaseDto;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

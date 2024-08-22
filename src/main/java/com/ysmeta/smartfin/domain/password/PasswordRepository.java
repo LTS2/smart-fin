@@ -3,7 +3,7 @@ package com.ysmeta.smartfin.domain.password;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 /**
  * 클래스입니다.

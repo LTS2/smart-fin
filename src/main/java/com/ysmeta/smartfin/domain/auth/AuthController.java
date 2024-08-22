@@ -1,5 +1,6 @@
 package com.ysmeta.smartfin.domain.auth;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysmeta.smartfin.domain.auth.service.AuthApplicationService;
-import com.ysmeta.smartfin.domain.user.UserDto;
+import com.ysmeta.smartfin.domain.user.dto.UserDto;
 import com.ysmeta.smartfin.util.helper.error.ErrorMessageHelper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -56,9 +56,9 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@Valid @RequestBody UserDto.LoginRequest loginRequestDto,
-		BindingResult bindingResult, @AuthenticationPrincipal UserDetails userDetails) {
-		log.info("III::: userDetails: {}", String.valueOf(userDetails));
-		log.info("III::: userDetails: {}", userDetails);
+		BindingResult bindingResult, @AuthenticationPrincipal UserPrincipal userDetails) {
+		log.info("III::: AuthController.login() -> userDetails: {}", String.valueOf(userDetails));
+		log.info("III::: AuthController.login() -> userDetails: {}", userDetails);
 		if (bindingResult.hasErrors()) {
 			String errorMessage = ErrorMessageHelper.getOrDefaultErrorMessage(bindingResult);
 			LoginResponse errorResponse = LoginResponse.builder()

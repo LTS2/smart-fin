@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ysmeta.smartfin.domain.auth.LoginResponse;
 import com.ysmeta.smartfin.domain.jwt.cqrs.JwtTokenCommandService;
 import com.ysmeta.smartfin.domain.jwt.cqrs.JwtTokenQueryService;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import lombok.extern.slf4j.Slf4j;
 

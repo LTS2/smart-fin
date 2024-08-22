@@ -1,7 +1,7 @@
 package com.ysmeta.smartfin.domain.password;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -39,6 +39,11 @@ public class PasswordEntity extends AbstractBaseEntity {
 	 * SHA-256로 암호화된 비밀번호
 	 */
 	private String hashedPassword;
+
+	public PasswordEntity(String hashedPassword, UserEntity user) {
+		this.hashedPassword = hashedPassword;
+		this.user = user;
+	}
 
 	// 엔티티를 DTO로 변환하는 메서드
 	public static PasswordDto fromEntity(PasswordEntity passwordEntity) {

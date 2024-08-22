@@ -12,9 +12,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.user.UserDto;
-import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;
+import com.ysmeta.smartfin.domain.user.dto.UserDto;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 import com.ysmeta.smartfin.domain.user.service.cqrs.UserQueryService;
 
 // TODO: WithMockUser 관련 제거 가능 여부 확인

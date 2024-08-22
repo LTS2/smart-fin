@@ -12,9 +12,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.ysmeta.smartfin.config.auth.jwt.JwtFilter;
+import com.ysmeta.smartfin.config.auth.jwt.JwtTokenProvider;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+	private final JwtTokenProvider jwtTokenProvider;
+
+	public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+		this.jwtTokenProvider = jwtTokenProvider;
+	}
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws
@@ -33,11 +42,11 @@ public class SecurityConfig {
 				.requestMatchers("/personal-recovery-search").hasAuthority("SEARCH_PERSONAL_RECOVERY") // 개인 회생 조회
 				.anyRequest().authenticated()
 			)
+			.addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+			.addFilterAt(new LoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
 			.formLogin(login -> login
 				.usernameParameter("email")
 				.passwordParameter("password"))
-			.addFilterAt(new LoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
-			// .userDetailsService(userDetailsService)
 
 			.sessionManagement(session -> session
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

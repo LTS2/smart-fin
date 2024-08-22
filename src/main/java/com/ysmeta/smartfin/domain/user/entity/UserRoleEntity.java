@@ -1,9 +1,8 @@
-package com.ysmeta.smartfin.domain.role.entity;
+package com.ysmeta.smartfin.domain.user.entity;
 
 import static jakarta.persistence.FetchType.*;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
-import com.ysmeta.smartfin.domain.user.UserEntity;
 
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -33,6 +32,12 @@ public class UserRoleEntity extends AbstractBaseEntity {
 	private UserEntity user;
 
 	@ManyToOne(fetch = LAZY)
-	@JoinColumn(name = "ROLE_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-	private RoleEntity role;
+	// @JoinColumn(name = "CODE", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "CODE", nullable = false)
+	private RoleTypeEntity roleTypeCode;
+
+	// @Enumerated(EnumType.STRING)
+	// @Column(name = "CODE", nullable = false)
+	// private RoleType roleTypeCode;
+
 }

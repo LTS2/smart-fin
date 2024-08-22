@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
  * @since : 2024. 8. 20.
  */
 @Slf4j
-@Component
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
@@ -45,29 +43,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		log.info("유저 이름: {}", username);
 		log.info("유저 비밀번호: {}", password);
 
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password,
+			null);
 		return authenticationManager.authenticate(authToken);
-	}
-
-	/**
-	 * Default behaviour for unsuccessful authentication.
-	 * <ol>
-	 * <li>Clears the {@link SecurityContextHolder}</li>
-	 * <li>Stores the exception in the session (if it exists or
-	 * <tt>allowSesssionCreation</tt> is set to <tt>true</tt>)</li>
-	 * <li>Informs the configured <tt>RememberMeServices</tt> of the failed login</li>
-	 * <li>Delegates additional behaviour to the
-	 * {@link AuthenticationFailureHandler}.</li>
-	 * </ol>
-	 *
-	 * @param request
-	 * @param response
-	 * @param failed
-	 */
-	@Override
-	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-		AuthenticationException failed) throws IOException, ServletException {
-		super.unsuccessfulAuthentication(request, response, failed);
 	}
 
 	/**
@@ -96,6 +74,40 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 		Authentication authResult) throws IOException, ServletException {
+		log.info("로그인 success");
+		log.info(String.valueOf(request));
+		log.info(String.valueOf(response));
+		log.info(String.valueOf(chain));
+		log.info(String.valueOf(authResult));
+		// 여기에 JWT 토큰을 헤더에 넣는다.
+		// 
+		doFilter(request, response, chain);
 		super.successfulAuthentication(request, response, chain, authResult);
 	}
+
+	/**
+	 * Default behaviour for unsuccessful authentication.
+	 * <ol>
+	 * <li>Clears the {@link SecurityContextHolder}</li>
+	 * <li>Stores the exception in the session (if it exists or
+	 * <tt>allowSesssionCreation</tt> is set to <tt>true</tt>)</li>
+	 * <li>Informs the configured <tt>RememberMeServices</tt> of the failed login</li>
+	 * <li>Delegates additional behaviour to the
+	 * {@link AuthenticationFailureHandler}.</li>
+	 * </ol>
+	 *
+	 * @param request
+	 * @param response
+	 * @param failed
+	 */
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+		AuthenticationException failed) throws IOException, ServletException {
+		log.info("로그인 fail");
+		log.info(String.valueOf(request));
+		log.info(String.valueOf(response));
+		log.info(String.valueOf(failed));
+		super.unsuccessfulAuthentication(request, response, failed);
+	}
+
 }

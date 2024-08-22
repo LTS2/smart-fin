@@ -1,7 +1,7 @@
 package com.ysmeta.smartfin.domain.password;
 
 import com.ysmeta.smartfin.common.AbstractBaseDto;
-import com.ysmeta.smartfin.domain.user.UserDto;
+import com.ysmeta.smartfin.domain.user.dto.UserDto;
 
 import lombok.AccessLevel;
 import lombok.Getter;

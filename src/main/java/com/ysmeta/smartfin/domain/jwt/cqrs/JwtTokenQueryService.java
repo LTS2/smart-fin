@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ysmeta.smartfin.domain.jwt.JwtTokenEntity;
 import com.ysmeta.smartfin.domain.jwt.JwtTokenRepository;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import lombok.extern.slf4j.Slf4j;
 

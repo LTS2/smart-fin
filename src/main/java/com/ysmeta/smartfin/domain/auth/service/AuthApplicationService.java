@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +14,8 @@ import com.ysmeta.smartfin.domain.auth.LoginResponse;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthCommandService;
 import com.ysmeta.smartfin.domain.auth.service.cqrs.AuthQueryService;
 import com.ysmeta.smartfin.domain.jwt.JwtTokenApplicationService;
-import com.ysmeta.smartfin.domain.password.PasswordEntity;
-import com.ysmeta.smartfin.domain.user.UserDto;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.dto.UserDto;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 import com.ysmeta.smartfin.domain.user.service.cqrs.UserQueryService;
 import com.ysmeta.smartfin.exception.user.UserAlreadyExistsException;
 
@@ -55,8 +53,10 @@ public class AuthApplicationService {
 		// 사용자의 정보를 조회
 		UserEntity userEntity = userQueryService.findByEmail(loginRequestDto.getEmail());
 
-		// JWT 토큰 생성 및 반환
-		return jwtTokenApplicationService.generateJwtTokens((UserDetails)userEntity);
+		return LoginResponse.builder().accessToken("1234").refreshToken("refresh").build();
+
+		// JWT 토큰 생성 및 반환 todo: class 캐스팅 오류남.
+		// return jwtTokenApplicationService.generateJwtTokens((UserDetails)userEntity);
 	}
 
 	@Transactional
@@ -70,12 +70,7 @@ public class AuthApplicationService {
 		}
 		String encryptedPassword = passwordEncoder.encode(password);
 
-		PasswordEntity passwordEntity = PasswordEntity.builder()
-			.user(userEntity)
-			.hashedPassword(encryptedPassword)
-			.build();
-
-		authCommandService.signUp(userEntity, passwordEntity);
+		authCommandService.signUp(userEntity, encryptedPassword);
 	}
 
 	public boolean checkEmailExists(String email) {

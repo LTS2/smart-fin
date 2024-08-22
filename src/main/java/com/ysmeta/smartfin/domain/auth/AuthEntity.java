@@ -3,7 +3,7 @@ package com.ysmeta.smartfin.domain.auth;
 import static jakarta.persistence.FetchType.*;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;

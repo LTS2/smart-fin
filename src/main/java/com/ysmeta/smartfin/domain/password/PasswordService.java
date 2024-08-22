@@ -3,7 +3,7 @@ package com.ysmeta.smartfin.domain.password;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ysmeta.smartfin.domain.user.UserEntity;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 /**
  * 클래스입니다.

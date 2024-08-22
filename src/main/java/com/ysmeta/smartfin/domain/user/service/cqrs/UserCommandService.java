@@ -5,8 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ysmeta.smartfin.domain.password.PasswordEntity;
 import com.ysmeta.smartfin.domain.password.PasswordRepository;
-import com.ysmeta.smartfin.domain.user.UserEntity;
 import com.ysmeta.smartfin.domain.user.UserRepository;
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
