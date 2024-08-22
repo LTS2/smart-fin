@@ -4,6 +4,7 @@
 -- ('USER', '유저 권한', 'system', 'system');
 
 INSERT INTO ROLE_TYPE(code, name) VALUES
+('PENDING', '첫 회원가입 권한 설정 대기'),
 ('ADMIN', '어드민 권한'),
 ('USER', '유저 권한');
 

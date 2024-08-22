@@ -72,8 +72,8 @@ public class AuthCommandService {
 		userRepository.save(userEntity);
 
 		// RoleTypeEntity 조회
-		RoleTypeEntity roleType = roleTypeRepository.findByCode(RoleType.USER)
-			.orElseThrow(() -> new RuntimeException("USER RoleType이 존재하지 않습니다."));
+		RoleTypeEntity roleType = roleTypeRepository.findByCode(RoleType.PENDING)
+			.orElseThrow(() -> new RuntimeException("PENDING RoleType이 존재하지 않습니다."));
 
 		// UserRoleEntity 생성 및 저장
 		UserRoleEntity userRoleEntity = UserRoleEntity.builder()

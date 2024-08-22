@@ -8,5 +8,5 @@ package com.ysmeta.smartfin.domain.user.entity;
  * @since : 2024. 8. 21.
  */
 public enum RoleType {
-	ADMIN, USER, MANAGER
+	PENDING, ADMIN, USER, MANAGER
 }
