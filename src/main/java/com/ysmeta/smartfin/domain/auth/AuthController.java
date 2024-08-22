@@ -54,6 +54,7 @@ public class AuthController {
 		}
 	}
 
+	// TODO: @AuthenticationPrincipal 없애든가 사용법 알아서 이거로 교체하든가 해야함.
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@Valid @RequestBody UserDto.LoginRequest loginRequestDto,
 		BindingResult bindingResult, @AuthenticationPrincipal UserPrincipal userDetails) {

@@ -1,6 +1,9 @@
 package com.ysmeta.smartfin.domain.user.dto;
 
+import java.util.List;
+
 import com.ysmeta.smartfin.common.AbstractBaseDto;
+import com.ysmeta.smartfin.domain.user.entity.RoleType;
 import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import jakarta.validation.constraints.Email;
@@ -112,7 +115,7 @@ public class UserDto extends AbstractBaseDto {
 	@SuperBuilder
 	public static class LoginResponse extends UserDto {
 
-		private String 뭐넣어야되지;
+		private List<RoleType> roles;
 
 		// 엔티티를 DTO로 변환하는 메서드
 		public UserEntity toEntity() {

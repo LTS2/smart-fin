@@ -1,7 +1,5 @@
 package com.ysmeta.smartfin.domain.user;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +21,12 @@ class UserRepositoryTest {
 
 	@Test
 	void test() {
-		List<UserEntity> a = userRepository.findAllByEmailWithRoles("leewoojin98@naver.com");
-		for (UserEntity userEntity : a) {
-			System.out.println(userEntity.getUserRoles().get(0).getUser());
-			System.out.println(userEntity.getUserRoles().get(0).getRoleTypeCode());
-			// System.out.println(userEntity.get)
-			System.out.println("ddddd");
-		}
+		UserEntity a = userRepository.findAllByEmailWithRoles("leewoojin98@naver.com");
+		// for (UserEntity userEntity : a) {
+		// 	System.out.println(userEntity.getUserRoles().get(0).getUser());
+		// 	System.out.println(userEntity.getUserRoles().get(0).getRoleTypeCode());
+		// System.out.println(userEntity.get)
+		// System.out.println("ddddd");
+		// }
 	}
 }

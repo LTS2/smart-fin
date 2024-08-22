@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
 import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -60,7 +61,7 @@ public class JwtTokenEntity extends AbstractBaseEntity {
 	 * 다대일(Many-to-One) 관계를 나타내며, 한 명의 사용자가 여러 개의 리프레시 토큰을 가질 수 있습니다.
 	 * `fetch = LAZY` 설정은 이 필드를 지연 로딩하여 필요할 때만 로딩되도록 합니다.
 	 */
-	@ManyToOne(fetch = LAZY)
+	@ManyToOne(fetch = LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "USER_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	UserEntity user;
 }

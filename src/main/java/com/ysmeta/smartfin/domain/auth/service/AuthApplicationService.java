@@ -51,12 +51,11 @@ public class AuthApplicationService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// 사용자의 정보를 조회
-		UserEntity userEntity = userQueryService.findByEmail(loginRequestDto.getEmail());
+		UserEntity userEntity = userQueryService.findAllByEmailWithRoles(loginRequestDto.getEmail());
 
-		return LoginResponse.builder().accessToken("1234").refreshToken("refresh").build();
+		// return LoginResponse.builder().accessToken("1234").refreshToken("refresh").build();
 
-		// JWT 토큰 생성 및 반환 todo: class 캐스팅 오류남.
-		// return jwtTokenApplicationService.generateJwtTokens((UserDetails)userEntity);
+		return jwtTokenApplicationService.generateJwtTokens(userEntity);
 	}
 
 	@Transactional

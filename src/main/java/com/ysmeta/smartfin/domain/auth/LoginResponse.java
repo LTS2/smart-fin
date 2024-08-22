@@ -18,6 +18,6 @@ import lombok.experimental.SuperBuilder;
 public class LoginResponse extends AbstractBaseDto {
 	private String accessToken;
 	private String refreshToken;
-	private UserDto user;
+	private UserDto.LoginResponse user;
 	private String errorMessage;
 }

@@ -4,9 +4,11 @@ import static jakarta.persistence.FetchType.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ysmeta.smartfin.common.AbstractBaseEntity;
 import com.ysmeta.smartfin.domain.password.PasswordEntity;
+import com.ysmeta.smartfin.domain.user.dto.UserDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -49,6 +51,19 @@ public class UserEntity extends AbstractBaseEntity {
 
 	public static UserEntity fromEmail(String email) {
 		return UserEntity.builder().email(email).build();
+	}
+
+	// toDto 메서드
+	public UserDto.LoginResponse toDtoLoginResponse() {
+		return UserDto.LoginResponse.builder()
+			.id(this.getId())
+			.name(this.name)
+			.email(this.email)
+			.companyName(this.companyName)
+			.roles(this.userRoles.stream()
+				.map(userRole -> userRole.getRoleTypeCode().getCode())
+				.collect(Collectors.toList()))
+			.build();
 	}
 
 }

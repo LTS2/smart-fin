@@ -2,7 +2,6 @@ package com.ysmeta.smartfin.domain.jwt;
 
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,14 +38,12 @@ public class JwtTokenApplicationService {
 	 * @return 생성되거나 기존의 유효한 JWT 토큰 응답 객체(JwtTokenResponse).
 	 */
 	@Transactional
-	public LoginResponse generateJwtTokens(UserDetails userDetails) {
-		// UserDetails를 UserEntity로 캐스팅
-		UserEntity userEntity = (UserEntity)userDetails;
+	public LoginResponse generateJwtTokens(UserEntity user) {
 		// Query Service를 통해 기존 유효한 토큰을 조회
-		Optional<JwtTokenEntity> existingTokenOpt = jwtTokenQueryService.findValidRefreshToken(userEntity);
+		Optional<JwtTokenEntity> existingTokenOpt = jwtTokenQueryService.findValidRefreshToken(user);
 
 		// 토큰을 생성하거나 업데이트
-		return jwtTokenCommandService.createOrUpdateTokens(userDetails, existingTokenOpt);
+		return jwtTokenCommandService.createOrUpdateTokens(user, existingTokenOpt);
 	}
 
 	/**

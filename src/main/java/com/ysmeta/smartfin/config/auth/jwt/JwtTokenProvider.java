@@ -5,12 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -59,7 +58,7 @@ public class JwtTokenProvider {
 	 * @param email JWT에 포함될 사용자의 이메일입니다.
 	 * @return 생성된 JWT 엑세스 토큰입니다.
 	 */
-	public String generateAccessToken(UserDetails userDetails) {
+	public String generateAccessToken(UserEntity userDetails) {
 		return generateToken(userDetails, ACCESS_TOKEN_EXPIRE_TIME);
 	}
 
@@ -69,7 +68,7 @@ public class JwtTokenProvider {
 	 * @param email JWT에 포함될 사용자의 이메일입니다.
 	 * @return 생성된 JWT 리프레시 토큰입니다.
 	 */
-	public String generateRefreshToken(UserDetails userDetails) {
+	public String generateRefreshToken(UserEntity userDetails) {
 		return generateToken(userDetails, REFRESH_TOKEN_EXPIRE_TIME);
 	}
 
@@ -80,14 +79,14 @@ public class JwtTokenProvider {
 	 * @param expireTime 토큰의 유효 기간입니다.
 	 * @return 생성된 JWT 토큰입니다.
 	 */
-	private String generateToken(UserDetails userDetails, long expireTime) {
-		String authorities = userDetails.getAuthorities().stream()
-			.map(GrantedAuthority::getAuthority)
-			.collect(Collectors.joining(","));
+	private String generateToken(UserEntity user, long expireTime) {
+		// String authorities = userDetails.getAuthorities().stream()
+		// 	.map(GrantedAuthority::getAuthority)
+		// 	.collect(Collectors.joining(","));
 
 		return Jwts.builder()
-			.setSubject(userDetails.getUsername())
-			.claim("roles", authorities)
+			.setSubject(user.getEmail())
+			.claim("roles", user.getUserRoles().get(0).getRoleTypeCode().getCode())
 			.setIssuedAt(new Date())
 			.setExpiration(new Date(System.currentTimeMillis() + expireTime))
 			.signWith(SignatureAlgorithm.HS256, secretKey)

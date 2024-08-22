@@ -3,7 +3,6 @@ package com.ysmeta.smartfin.domain.jwt.cqrs;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,15 +38,16 @@ public class JwtTokenCommandService {
 	/**
 	 * 주어진 사용자 엔티티와 리프레시 토큰을 바탕으로 새로운 JwtTokenEntity 객체를 생성하고 저장합니다.
 	 *
-	 * @param userEntity   사용자 엔티티.
+	 * @param user         사용자 엔티티.
 	 * @param refreshToken 생성할 리프레시 토큰.
 	 */
-	private void saveNewRefreshToken(UserDetails userDetails, String refreshToken) {
+	private void saveNewRefreshToken(UserEntity user, String refreshToken) {
 		JwtTokenEntity newToken = JwtTokenEntity.builder()
 			.refreshToken(refreshToken)
 			.expiresAt(LocalDateTime.now().plusDays(7))
 			.revoked(false)
-			.user(UserEntity.fromEmail(userDetails.getUsername()))
+			// .user(UserEntity.fromEmail(user.getEmail()))
+			.user(user)
 			.build();
 
 		jwtTokenRepository.save(newToken);
@@ -62,34 +62,35 @@ public class JwtTokenCommandService {
 	 * 기존 리프레시 토큰이 유효한 경우, 새로 생성된 Access Token과 기존 리프레시 토큰을 반환합니다.
 	 * </pre>
 	 *
-	 * @param userEntity       JWT 토큰을 생성할 사용자 엔티티.
+	 * @param user             JWT 토큰을 생성할 사용자 엔티티.
 	 * @param existingTokenOpt 기존의 리프레시 토큰 엔티티.
 	 * @return 생성된 JWT 토큰 응답 객체(JwtTokenResponse).
 	 */
 	@Transactional
-	public LoginResponse createOrUpdateTokens(UserDetails userDetails, Optional<JwtTokenEntity> existingTokenOpt) {
+	public LoginResponse createOrUpdateTokens(UserEntity user, Optional<JwtTokenEntity> existingTokenOpt) {
 		// 새로운 Access Token 생성
-		String accessToken = jwtTokenProvider.generateAccessToken(userDetails);
-		String refreshToken = jwtTokenProvider.generateRefreshToken(userDetails);
+		String accessToken = jwtTokenProvider.generateAccessToken(user);
+		String refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
 		if (existingTokenOpt.isPresent()) {
 			JwtTokenEntity existingToken = existingTokenOpt.get();
 			if (existingToken.getExpiresAt().isBefore(LocalDateTime.now())) {
 				// 만료된 토큰을 삭제하고 새로 생성
 				jwtTokenRepository.delete(existingToken);
-				saveNewRefreshToken(userDetails, refreshToken);
+				saveNewRefreshToken(user, refreshToken);
 			} else {
 				// 기존 리프레시 토큰이 유효한 경우
 				refreshToken = existingToken.getRefreshToken();
 			}
 		} else {
 			// 기존 리프레시 토큰이 없으면 새로 생성
-			saveNewRefreshToken(userDetails, refreshToken);
+			saveNewRefreshToken(user, refreshToken);
 		}
 
 		return LoginResponse.builder()
 			.accessToken(accessToken)
 			.refreshToken(refreshToken)
+			.user(user.toDtoLoginResponse())
 			.build();
 	}
 

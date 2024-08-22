@@ -57,8 +57,7 @@ public class UserQueryService {
 	 * @return 주어진 이메일을 가진 UserEntity 객체
 	 * @throws UsernameNotFoundException 사용자가 존재하지 않을 경우 던져지는 예외
 	 */
-	public UserEntity findByEmail(String email) {
-		return userRepository.findByEmail(email)
-			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + email));
+	public UserEntity findAllByEmailWithRoles(String email) {
+		return userRepository.findAllByEmailWithRoles(email);
 	}
 }
