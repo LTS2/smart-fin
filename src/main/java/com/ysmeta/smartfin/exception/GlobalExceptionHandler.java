@@ -21,17 +21,18 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(UserAlreadyExistsException.class)
-	public ResponseEntity<ExceptionResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+	public ResponseEntity<ExceptionResponse> handleUserAlreadyExistsException(
+		UserAlreadyExistsException euserAlreadyExistsException) {
 		log.info("이거 써야되는데 안 타네 이거 수정하기.");
 		log.info("이미 존재하는 사용자 예외 처리");
-		ExceptionResponse response = new ExceptionResponse(HttpStatus.CONFLICT, e.getMessage());
+		ExceptionResponse response = new ExceptionResponse(HttpStatus.CONFLICT,
+			euserAlreadyExistsException.getMessage());
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ExceptionResponse> handleGeneralException(Exception e) {
-		log.error("예상치 못한 오류 처리", e);
-		e.printStackTrace();
+	public ResponseEntity<ExceptionResponse> handleGeneralException(Exception exception) {
+		log.error("예상치 못한 오류 처리", exception);
 		ExceptionResponse response = new ExceptionResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	}

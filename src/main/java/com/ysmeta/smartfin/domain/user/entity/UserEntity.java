@@ -23,7 +23,6 @@ import lombok.experimental.SuperBuilder;
  * 고객 엔티티입니다.
  *
  * @author : ewjin
- * @fileName CustomerEntity
  * @since : 2024. 7. 29.
  */
 @Getter
@@ -44,7 +43,7 @@ public class UserEntity extends AbstractBaseEntity {
 	String email;
 	@Column(nullable = false)
 	private String companyName;
-	@OneToOne(mappedBy = "user", fetch = LAZY)
+	@OneToOne(mappedBy = "user")
 	private PasswordEntity passwordEntity;
 	@OneToMany(mappedBy = "user", fetch = LAZY)
 	private List<UserRoleEntity> userRoles = new ArrayList<>();

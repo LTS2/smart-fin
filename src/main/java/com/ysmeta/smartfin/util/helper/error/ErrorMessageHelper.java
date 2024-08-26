@@ -6,7 +6,9 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindingResult;
 
 /**
- * TODO: 2024. 8. 12. 에 현재 클래스 위치는 smartfin/util/helper/error/ 에 위치한다. 하지만 해당 에러 객체가 전역적인 관심사가 된다면 common 패키지로 옮기는 것을 고려중이다.
+ * TODO: 2024. 8. 12. 에 현재 클래스 위치는 smartfin/util/helper/error/ 에 위치한다.
+ * 하지만 해당 에러 객체가 전역적인 관심사가 된다면 common 패키지로 옮기는 것을 고려중이다.
+ * <p>
  * ErrorMessageHelper 클래스는 유효성 검사 과정에서 발생하는 오류 메시지를 처리하는 헬퍼 클래스입니다.
  * <p>
  * 이 클래스는 BindingResult 객체에서 발생한 첫 번째 오류 메시지를 추출하여 반환합니다.

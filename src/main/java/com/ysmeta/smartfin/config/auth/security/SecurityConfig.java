@@ -60,6 +60,7 @@ public class SecurityConfig {
 	/**
 	 * 비밀번호 암호화 전용 BCryptPasswordEncoder 메서드입니다.
 	 */
+	@SuppressWarnings("checkstyle:MethodName")
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

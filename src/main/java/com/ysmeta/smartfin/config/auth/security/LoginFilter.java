@@ -63,13 +63,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 	 * Subclasses can override this method to continue the {@link FilterChain} after
 	 * successful authentication.
 	 *
-	 * @param request
-	 * @param response
-	 * @param chain
 	 * @param authResult the object returned from the <tt>attemptAuthentication</tt>
 	 *                   method.
-	 * @throws IOException
-	 * @throws ServletException
 	 */
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
@@ -80,7 +75,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 		log.info(String.valueOf(chain));
 		log.info(String.valueOf(authResult));
 		// 여기에 JWT 토큰을 헤더에 넣는다.
-		// 
 		doFilter(request, response, chain);
 		super.successfulAuthentication(request, response, chain, authResult);
 	}

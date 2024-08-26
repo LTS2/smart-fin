@@ -32,7 +32,9 @@ public class PasswordEntity extends AbstractBaseEntity {
 	 * cascade = 유저가 생성, 삭제될 때 비밀번호도 함께 생성, 삭제되도록 설정
 	 */
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID", unique = true, nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+	@JoinColumn(name = "USER_ID", unique = true,
+		nullable = false,
+		foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
 	private UserEntity user;
 
 	/**

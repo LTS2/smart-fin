@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ysmeta.smartfin.domain.password.PasswordEntity;
@@ -32,10 +31,6 @@ public class AuthCommandService {
 	private final UserRepository userRepository;
 	@Autowired
 	private UserRoleRepository userRoleRepository;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
-	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private RoleTypeRepository roleTypeRepository;
