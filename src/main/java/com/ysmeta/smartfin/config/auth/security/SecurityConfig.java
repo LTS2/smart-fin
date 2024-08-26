@@ -62,7 +62,7 @@ public class SecurityConfig {
 	 */
 	@SuppressWarnings("checkstyle:MethodName")
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+	public BCryptPasswordEncoder bcryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
