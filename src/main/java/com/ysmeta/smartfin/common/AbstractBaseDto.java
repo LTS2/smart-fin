@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
  * 공통 사용 컬럼 DTO 관리 클래스입니다.
  *
  * @author : ewjin
- * @fileName : BaseDto
  * @since : 2024. 8. 8.
  */
 @Getter
