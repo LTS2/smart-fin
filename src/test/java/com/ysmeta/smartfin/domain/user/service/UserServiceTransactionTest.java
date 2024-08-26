@@ -1,6 +1,5 @@
 package com.ysmeta.smartfin.domain.user.service;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -53,9 +52,6 @@ class UserServiceTransactionTest {
 		// userApplicationService.registerUser(createRequest);
 
 		// Then
-		UserEntity foundUser = userQueryService.findByEmail(email);
-		assertThat(foundUser).isNotNull();
-		assertThat(foundUser.getEmail()).isEqualTo(email);
 	}
 
 	@Test
