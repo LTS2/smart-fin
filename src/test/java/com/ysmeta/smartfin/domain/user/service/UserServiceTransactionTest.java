@@ -11,20 +11,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysmeta.smartfin.domain.user.UserRepository;
 import com.ysmeta.smartfin.domain.user.dto.UserDto;
-import com.ysmeta.smartfin.domain.user.entity.UserEntity;
 import com.ysmeta.smartfin.domain.user.service.cqrs.UserQueryService;
 
 // TODO: WithMockUser 관련 제거 가능 여부 확인
 @SpringBootTest
 class UserServiceTransactionTest {
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private UserApplicationService userApplicationService;
 
 	@Autowired
 	private UserQueryService userQueryService;
@@ -46,7 +38,6 @@ class UserServiceTransactionTest {
 	@DisplayName("회원가입 후 데이터베이스에 저장된 사용자 확인 테스트")
 	void testRegisterUserAndCheckDatabase() {
 		// Given
-		String email = createRequest.getEmail();
 
 		// When
 		// userApplicationService.registerUser(createRequest);
@@ -61,10 +52,6 @@ class UserServiceTransactionTest {
 	void testRegisterUserWithSeparateTransactions() {
 		// Given
 		String email = "test@example.com";
-		UserEntity user = UserEntity.builder()
-			.name("Test User")
-			.email(email)
-			.build();
 
 		// When
 		// userApplicationService.registerUser(createRequest);

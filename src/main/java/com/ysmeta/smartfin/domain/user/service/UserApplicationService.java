@@ -29,5 +29,5 @@ public class UserApplicationService {
 		this.userCommandService = userCommandService;
 		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 }

@@ -51,7 +51,7 @@ dependencies {
 //    compileOnly 'io.jsonwebtoken:jjwt-annotations:0.11.5'
 //    runtimeOnly 'io.jsonwebtoken:jjwt-orgjson:0.11.5'
     /* Spring Security 의존성 끝 */
-    
+
     /* @NotBlank, @Email @Valid 등 Dto 에서 유효성 검사용 */
     implementation 'javax.validation:validation-api:2.0.1.Final'
     // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator

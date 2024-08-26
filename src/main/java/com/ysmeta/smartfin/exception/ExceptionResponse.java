@@ -18,7 +18,7 @@ public class ExceptionResponse {
 	private HttpStatus status;
 	private String message;
 	private LocalDateTime timestamp;
-	
+
 	public ExceptionResponse(HttpStatus status, String message) {
 		this.status = status;
 		this.message = message;

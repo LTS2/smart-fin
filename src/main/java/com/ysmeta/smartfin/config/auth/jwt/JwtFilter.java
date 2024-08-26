@@ -36,7 +36,9 @@ public class JwtFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		final String authorization = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
+		final String authorization1 = response.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 		log.info("Authorization: {}", authorization);
+		log.info("Authorization1: {}", authorization1);
 
 		// 토큰이 없거나 Bearer 형태로 보내지 않으면 필터링을 중단하고 다음 필터로 넘어갑니다.
 		if (authorization == null || !authorization.startsWith("Bearer ")) {
