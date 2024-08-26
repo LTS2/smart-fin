@@ -33,17 +33,6 @@ class JwtTokenProviderTest {
 		jwtTokenProvider = new JwtTokenProvider(secretKey);
 	}
 
-	/**
-	 * JWT 토큰 생성 기능을 테스트합니다.
-	 *
-	 * <p>
-	 * 이 메서드는 다음 단계를 검증합니다:
-	 * <ul>
-	 * <li>JWT 토큰이 정상적으로 생성되는지</li>
-	 * <li>생성된 토큰에서 subject(이메일)를 올바르게 추출할 수 있는지</li>
-	 * </ul>
-	 * </p>
-	 */
 	// @Test
 	// @DisplayName("JWT 토큰 생성")
 	// void generateToken() {
@@ -68,18 +57,6 @@ class JwtTokenProviderTest {
 	// 	assertEquals(email, extractedEmail, "추출된 이메일이 원래의 이메일과 일치해야 합니다.");
 	// }
 
-	/**
-	 * JWT 토큰에서 모든 클레임을 추출하는 기능을 테스트합니다.
-	 * private 메서드를 테스트 하는 것을 지양해야하기 때문에 해당 테스트 주석처리
-	 * private 메서드를 테스트 하게 되면 외부에 노출되어 결합도가 증가하기 때문.
-	 * <p>
-	 * 이 메서드는 다음 단계를 검증합니다:
-	 * <ul>
-	 * <li>JWT 토큰에서 모든 클레임이 정상적으로 추출되는지</li>
-	 * <li>추출된 클레임들이 예상된 값들과 일치하는지</li>
-	 * </ul>
-	 * </p>
-	 */
 	// @Test
 	// @DisplayName("JWT 토큰에서 모든 클레임 추출")
 	// void extractAllClaimsFromToken() {

@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ysmeta.smartfin.domain.user.entity.UserEntity;
-
 /**
  * 클래스입니다.
  *
@@ -21,7 +19,7 @@ class UserRepositoryTest {
 
 	@Test
 	void test() {
-		UserEntity a = userRepository.findAllByEmailWithRoles("leewoojin98@naver.com");
+		// UserEntity a = userRepository.findAllByEmailWithRoles("leewoojin98@naver.com");
 		// for (UserEntity userEntity : a) {
 		// 	System.out.println(userEntity.getUserRoles().get(0).getUser());
 		// 	System.out.println(userEntity.getUserRoles().get(0).getRoleTypeCode());
