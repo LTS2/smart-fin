@@ -15,9 +15,9 @@ import lombok.Getter;
  */
 @Getter
 public class ExceptionResponse {
-	private HttpStatus status;
-	private String message;
-	private LocalDateTime timestamp;
+	private final HttpStatus status;
+	private final String message;
+	private final LocalDateTime timestamp;
 
 	public ExceptionResponse(HttpStatus status, String message) {
 		this.status = status;

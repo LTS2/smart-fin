@@ -13,6 +13,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,15 +26,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 	private final JwtTokenProvider jwtTokenProvider;
-	private String secretKey;
 
 	public JwtFilter(JwtTokenProvider jwtTokenProvider) {
 		this.jwtTokenProvider = jwtTokenProvider;
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-		FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(@NonNull HttpServletRequest request,
+		@NonNull HttpServletResponse response,
+		@NonNull FilterChain filterChain)
+		throws ServletException, IOException {
 
 		final String authorization = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 		final String authorization1 = response.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);

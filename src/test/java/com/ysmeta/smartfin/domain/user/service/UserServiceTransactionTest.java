@@ -21,11 +21,9 @@ class UserServiceTransactionTest {
 	@Autowired
 	private UserQueryService userQueryService;
 
-	private UserDto.CreateRequest createRequest;
-
 	@BeforeEach
 	void setUp() {
-		createRequest = UserDto.CreateRequest.builder()
+		UserDto.CreateRequest createRequest = UserDto.CreateRequest.builder()
 			.name("Test User")
 			.email("test@example.com")
 			.companyName("Test Company")
